@@ -8,25 +8,25 @@
 * Jacob Pulver
 * Jake Vo
 
-**Annie Chen**
-#### Story Board 1
+### Annie Chen
+**Story Board 1**
 
-#### Story Board 2
-
-
-**Jason Pon**
-#### Story Board 3
-
-#### Story Board 4
+**Story Board 2**
 
 
-**Jacob Pulver**
-#### Story Board 5
+### Jason Pon
+**Story Board 3**
 
-#### Story Board 6
+**Story Board 4**
 
 
-**Jake Vo**
-#### Story Board 7
+### Jacob Pulver
+**Story Board 5**
 
-#### Story Board 8
+**Story Board 6**
+
+
+### Jake Vo
+**Story Board 7**
+
+**Story Board 8**
