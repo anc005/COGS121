@@ -28,5 +28,6 @@
 
 ### Jake Vo
 **Story Board 7**
-
+![Storyboard3](/storyboards/storyboard7.png)
 **Story Board 8**
+![Storyboard3](/storyboards/storyboard8.png)
