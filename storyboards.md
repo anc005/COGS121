@@ -10,8 +10,10 @@
 
 ### Annie Chen
 **Story Board 1**
+![Storyboard1](/storyboards/storyboard1.png)
 
 **Story Board 2**
+![Storyboard2](/storyboards/storyboard2.png)
 
 
 ### Jason Pon
