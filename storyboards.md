@@ -22,9 +22,9 @@
 
 ### Jacob Pulver
 **Story Board 5**
-
+![Storyboard5](/storyboards/Storyboard5.jpg)
 **Story Board 6**
-
+![Storyboard6](/storyboards/Storyboard6.jpg)
 
 ### Jake Vo
 **Story Board 7**
