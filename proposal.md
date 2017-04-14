@@ -14,7 +14,7 @@
 A place where people can find no-strings-attached wholesome peers who are open to hearing and talking about your struggles.
 
 **Storyboard**
-![Storyboard1](/storyboards/storyboard9.jpg)
+![Storyboard9](/storyboards/storyboard9.jpg)
 
 **Description of what pieces of feedback that you took from classmates and your TA to settle on this idea:**
 * Make sure the users are genuine and not trolls. Some sort of screening process?
