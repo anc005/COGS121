@@ -10,7 +10,10 @@
 
 ### Annie Chen
 **Paper Prototype 1**
-![PaperPrototype1](/paper-prototype/storyboard1.jpg)
+![PaperPrototype1](/paper-prototype/paper2.jpg)
+![PaperPrototype1](/paper-prototype/paper1.jpg)
+
+Description: The user is shown on a map with peer advisors nearby (the pins). The user clicks a pin to briefly see who the peer advisor is. The user clicks contact in order to see more detail and either contact via in-chat messaging or calling.
 
 ### Jason Pon
 **Paper Prototype 2**
