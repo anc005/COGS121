@@ -27,5 +27,5 @@ Description: The user is shown the map with faces indicating whether the other u
 
 ### Jake Vo
 **Paper Prototype 4**
-![PaperPrototype4](/paper-prototypes/paper4.png)
+![PaperPrototype4](/paper-prototypes/paper4.jpg)
 Description: User opens the app and see the location of the people who needs help on the map and how far are they from his or her own location. He can click on those location to get more info about those people.
