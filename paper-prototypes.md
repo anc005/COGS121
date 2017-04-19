@@ -21,7 +21,8 @@ Description: The user is shown on a map with peer advisors nearby (the pins). Th
 
 ### Jacob Pulver
 **Paper Prototype 3**
-![PaperPrototype3](/paper-prototypes/Storyboard5.jpg)
+![PaperPrototype3](/paper-prototypes/paper3.jpg)
+Description: The user is shown the map with faces indicating whether the other user needs help or not. Then the user clicks on a face and sees the post of that user. The user then can also post their own blurb and indicate their current status. Then the user is also able to customize their profile.
 
 ### Jake Vo
 **Paper Prototype 4**
