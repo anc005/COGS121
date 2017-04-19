@@ -17,7 +17,8 @@ Description: The user is shown on a map with peer advisors nearby (the pins). Th
 
 ### Jason Pon
 **Paper Prototype 2**
-![PaperPrototype2](/paper-prototypes/storyboard3.png)
+![PaperPrototype2](/paper-prototypes/paper5.png)
+Description: This prototype shows a mapview of the people who are requesting help for the user (who is looking to help others). The user taps on a emotion face to look at more details about the person's issue and is able to go to a comment screen where he/she can comment and/or meetup with the person.
 
 ### Jacob Pulver
 **Paper Prototype 3**
@@ -26,5 +27,5 @@ Description: The user is shown the map with faces indicating whether the other u
 
 ### Jake Vo
 **Paper Prototype 4**
-![PaperPrototype4](/paper-prototypes/storyboard7.png)
-
+![PaperPrototype4](/paper-prototypes/paper4.png)
+Description: User opens the app and see the location of the people who needs help on the map and how far are they from his or her own location. He can click on those location to get more info about those people.
