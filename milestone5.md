@@ -1,13 +1,13 @@
 ## Milestone 5: Core Map Interactions
 
 **Descriptions of what each team member has done on the project so far**
+
 Jacob:
 
 Jake:
 * Rendered Google Map onto an html file
 * Implemented getting the location of the user
 * Helped team members with bug fixing
-
 
 Annie:
 
