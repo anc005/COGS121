@@ -7,6 +7,8 @@ Jake:
 * Rendered Google Map onto an html file
 * Implemented getting the location of the user
 * Helped team members with bug fixing
+
+
 Annie:
 
 Jason:
