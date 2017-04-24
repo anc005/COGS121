@@ -3,6 +3,7 @@
 **Descriptions of what each team member has done on the project so far**
 
 Jacob:
+* Create/design user-inferface for initial intro pages/login.
 
 Jake:
 * Rendered Google Map onto an html file
@@ -10,6 +11,8 @@ Jake:
 * Helped team members with bug fixing
 
 Annie:
+* Create user interface for post-login pages.
+* Design emojis/icons
 
 Jason:
 * Implemented custom markers for posts of other users (People looking for help have their locations marked by emotion faces on the map)
@@ -19,3 +22,4 @@ Jason:
 **Screenshot of app core map functionality so far:**
 ![Screenshot1]()
 **Description of features screenshot shows:**
+This screenshot displays people in need of a peer advisor on a map. This is from the peer advisor's point of view. The emojis represent the mood of the people who need a peer advisor. The peer advisor can press the emoji to see more info about the user.
