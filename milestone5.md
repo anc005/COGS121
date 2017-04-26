@@ -21,6 +21,6 @@ Jason:
 * Added some fake data
 
 **Screenshot of app core map functionality so far:**
-![Screenshot1]()
+![Screenshot1](/milestone5screenshot.png)
 **Description of features screenshot shows:**
 This screenshot displays people in need of a peer advisor on a map. This is from the peer advisor's point of view. The emojis represent the mood of the people who need a peer advisor. The peer advisor can press the emoji to see more info about the user.
