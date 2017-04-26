@@ -11,8 +11,9 @@ Jake:
 * Helped team members with bug fixing
 
 Annie:
-* Create user interface for post-login pages.
-* Design emojis/icons
+* Create user-interface for post-login content 
+* Setup CSS links to relevant content for ease of future modifications
+* Integrate more icons (font-awesome)
 
 Jason:
 * Implemented custom markers for posts of other users (People looking for help have their locations marked by emotion faces on the map)
