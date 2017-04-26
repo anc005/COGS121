@@ -3,7 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Map View</title>
     <style>
       #map {
@@ -13,6 +13,12 @@
 	     height: 100%;
 		 margin: 0;
          padding: 0;
+	   }
+	   .description{
+	   	 color: red;
+	   }
+	   .dHeader{
+	   		color:blue;
 	   }
      </style>
 </head>
@@ -25,7 +31,7 @@
         center: {lat: 32.87699, lng: -117.2365},
 		zoom: 16
     });
-	infoWindow = new google.maps.InfoWindow;
+	infoWindow = new google.maps.InfoWindow({content:'<p class="hook">Hello World!</p>'});
 
     // Try HTML5 geolocation.
         if (navigator.geolocation) {
@@ -51,15 +57,21 @@
 			  {
 			  	  position: new google.maps.LatLng(32.878677, -117.241841),
 				  type: 'happy',
-				  contentString: 'Im happy but sad'
+				  contentString: '<div class="dHeader">Paul Doe</div>' + 
+				    			'<div class="description">"I\'m happy but sad"</div>' + 
+				    			'<br><center><i class="fa fa-phone"></i></center>'
 			  }, {
 			  	  position: new google.maps.LatLng(32.885273, -117.240124),
 				  type: 'neutral',
-				  contentString: 'I didnt get a job interview'
+				  contentString: '<div class="dHeader">Jane Crow</div>' + 
+				  					'<div class="description">"I didn\'t get a job interview"</div>' + 
+				  					'<br><center><i class="fa fa-phone"></i></center>'
 			  }, {
 			  	  position: new google.maps.LatLng(32.877466, -117.230683),
 				  type: 'sad',
-				  contentString: 'Failed my test :('
+				  contentString: '<div class="dHeader">Ollie Bo</div>' + 
+				  '<div class="description">"Failed my test :("</div>' + 
+				  '<br><center><i class="fa fa-phone"></i></center>'
 			  }
 			];
 
