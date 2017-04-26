@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <style>
+
+    body {
+        background-color: white;
+    }
+
+    form {
+        background-color: white;
+    }
+
+    input[type=text], input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0 auto;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    .imgcontainer {
+        text-align: center;
+        margin: 24px 0 12px 0;
+    }
+
+    img.Icon {
+        width: 17%;
+        border-radius: 50%;
+    }
+
+    .container {
+        padding: 16px;
+        margin: 0 auto;
+        width: 40%;
+    }
+
+</style>
+</head>
+<body>
+
+<h1 style="text-align:center;">Login</h1>
+<h5 style="text-align:center;">Don't have an acount?<a href="./signUp.html"> Sign Up!</a></h5>
+<form action="./map.html">
+  <div class="imgcontainer">
+    <img src="./cat.jpg" alt="Icon" class="Icon">
+  </div>
+
+  <div class="container">
+    <label><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="user" required>
+
+    <label><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="pass" required>
+        
+    <button type="submit">Login</button>
+  </div>
+
+</form>
+</body>
+</html>
