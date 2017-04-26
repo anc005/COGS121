@@ -6,5 +6,73 @@
     <meta charset="utf-8" />
     <title>Sign Up</title>
     <style>
-    </style>
+
+    body {
+        background-color: #80B3FF;
+    }
+
+    form {
+        background-color: #A2122F;
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    input[type=text], input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0 auto;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #693726;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    .imgcontainer {
+        text-align: center;
+        margin: 24px 0 12px 0;
+    }
+
+    img.Icon {
+        width: 17%;
+        border-radius: 50%;
+    }
+
+    .container {
+        padding: 16px;
+        margin: 0 auto;
+    }
+
+</style>
+</head>
+<body>
+
+<h1 style="text-align:center;color:#FD6E8A;">PeerAdvice</h1>
+<h5 style="text-align:center;color:#FD6E8A;">Don't have an acount?<a href="./signUp.html" style="color:blue;"> Sign Up!</a></h5>
+<form action="./map.html">
+
+  <div class="container">
+    <label style="color:#FFC2CE;"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="user" required>
+
+    <label style="color:#FFC2CE;"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="pass" required>
+        
+    <button style="color:#FFC2CE;" type="submit">Login</button>
+  </div>
+
+</form>
+</body>
 </head>
