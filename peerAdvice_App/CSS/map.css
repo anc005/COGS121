@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+
+#map {
+height: 90%;
+}
+html, body{
+ height: 100%;
+ margin: 0;
+ padding: 0;
+ font-family: 'Nunito', sans-serif;
+}
+.description{
+	 color: red;
+}
+.dHeader{
+		color:blue;
+}
+
+ul {
+ list-style-type: none;
+ margin: 0;
+ padding: 0;
+ overflow: hidden;
+ background-color: aquamarine;
+ height: 5%;
+}
+
+li a {
+ display: block;
+ text-align: center;
+ padding: 14px 16px;
+ text-decoration: none;
+ color: salmon;
+}
+
+.btn-group button {
+	   background-color: salmon;
+    border: 2px solid #ccc;
+
+   color: white;
+   padding: 10px 24px;
+   cursor: pointer;
+   float: left;
+   width: 33.33%;
+   height: 100%;
+   border-radius: 10px;
+
+}
+
+.btn-group button:not(:last-child) {
+	   border-right: none;
+}
+
+.btn-group button:hover {
+	 border: 2px solid aquamarine;
+	   background-color: white;
+	   color: salmon;
+}	
+button{
+	    font-family: 'Nunito', sans-serif;
+
+}

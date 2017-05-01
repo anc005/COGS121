@@ -2,72 +2,22 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
+	<link rel="stylesheet" type="text/css" href="./css/map.css">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Map View</title>
-    <style>
-      #map {
-        height: 90%;
-       }
-       html, body{
-	     height: 100%;
-		 margin: 0;
-         padding: 0;
-	   }
-	   .description{
-	   	 color: red;
-	   }
-	   .dHeader{
-	   		color:blue;
-	   }
-
-	   ul {
-	     list-style-type: none;
-		 margin: 0;
-		 padding: 0;
-		 overflow: hidden;
-		 background-color: aquamarine;
-		 height: 5%;
-	   }
-
-	   li a {
-	     display: block;
-		 text-align: center;
-		 padding: 14px 16px;
-		 text-decoration: none;
-		 color: salmon;
-	   }
-
-	   .btn-group button {
-	   	   background-color: aquamarine;
-		   border: 1px solid black;
-		   color: salmon;
-		   padding: 10px 24px;
-		   cursor: pointer;
-		   float: left;
-		   width: 33.33%;
-		   height: 100%;
-	   }
-
-	   .btn-group button:not(:last-child) {
-	   	   border-right: none;
-	   }
-
-	   .btn-group button:hover {
-	   	   background-color: black;
-	   }
-
-     </style>
 </head>
 <body>
   <ul id="navbar">
-    <li><a>PeerAdvice</a></li>
+    <li><a><b>PeerAdvice</b></a></li>
   </ul>
   <div id="map"></div>
   <div class="btn-group" style="width:100%; height:5%">
     <button>Create Post</button>
-	<button>My Profile</button>
-    <button onclick="location.href='login.html'">Logout</button>
+	<button><i class="fa fa-user" aria-hidden="true"></i>
+</button>
+    <button onclick="location.href='login.html'"><i class="fa fa-power-off" aria-hidden="true"></i>
+</button>
   </div>
   <script>
     var map, infoWindow;
