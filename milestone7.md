@@ -9,7 +9,9 @@ Jake:
 * 
 
 Annie:
-* 
+* Reorganized CSS code for ease of access and reduction of redundancy.
+* Updated UI for login, sign-up, and map pages to be uniform and minimalistic for the user.
+* Integrated google fonts and font awesome icons.
 
 Jason:
 * 
