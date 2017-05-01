@@ -37,17 +37,38 @@
 		 text-decoration: none;
 		 color: salmon;
 	   }
+
+	   .btn-group button {
+	   	   background-color: aquamarine;
+		   border: 1px solid black;
+		   color: salmon;
+		   padding: 10px 24px;
+		   cursor: pointer;
+		   float: left;
+		   width: 33.33%;
+		   height: 100%;
+	   }
+
+	   .btn-group button:not(:last-child) {
+	   	   border-right: none;
+	   }
+
+	   .btn-group button:hover {
+	   	   background-color: black;
+	   }
+
      </style>
 </head>
 <body>
   <ul id="navbar">
     <li><a>PeerAdvice</a></li>
-	
   </ul>
   <div id="map"></div>
-  <ul id="navbottom">
-    <li style="float:right"><a href="login.html">Logout</a></li>
-  </ul>
+  <div class="btn-group" style="width:100%; height:5%">
+    <button>Create Post</button>
+	<button>My Profile</button>
+    <button onclick="location.href='login.html'">Logout</button>
+  </div>
   <script>
     var map, infoWindow;
     function initMap() {
