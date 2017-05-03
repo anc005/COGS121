@@ -6,7 +6,9 @@ Jacob:
 * Add some forms for a profile page for the user and linked to the map.
 
 Jake:
-* 
+* Replace the buttons at the bottom with a tab bar so user can switch between pages
+without reloading the page also add createPost where user can choose emojis and input
+messages.
 
 Annie:
 * Reorganized CSS code for ease of access and reduction of redundancy.
