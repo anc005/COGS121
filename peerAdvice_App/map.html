@@ -14,7 +14,7 @@
 </head>
 <body>
   
-    <ul id="navbar">
+  <ul id="navbar">
     <li><a><b>PeerAdvice</b></a></li>
   </ul>
 
@@ -41,7 +41,7 @@
        </form>
    </tab-section>
    
-  <main>
+  </main>
   <footer class="btn-group" id="footer">
             <tab id="lost-tab" class="active">Home</tab>
             <tab id="found-tab">Create Post</tab>
@@ -93,6 +93,13 @@
 				  					'<div class="description">"I didn\'t get a job interview"</div>' + 
 				  					'<br><center><i class="fa fa-phone"></i></center>' +
 									'<a>3 hours ago</a>'
+			  }, {
+			  	  position: new google.maps.LatLng(32.880124, -117.223902),
+				  type: 'sad',
+				  contentString: '<div class="dHeader">Adam Smith</div>' + 
+				  					'<div class="description">"Got into a car crash..."</div>' + 
+				  					'<br><center><i class="fa fa-phone">|</i><i class="fa fa-users"></i>|<i class="fa fa-comments"></i></center>' +
+									'<a>2 hours ago</a>'
 			  }, {
 			  	  position: new google.maps.LatLng(32.7418412, -117.0730519),
 				  type: 'sad',
@@ -150,11 +157,12 @@
   </script>
    <script language="javascript">
 		$(document).ready(function(e) {
-		try {
-		$("body select").msDropDown();
-		} catch(e) {
-		alert(e.message);
-		}
+		  try {
+		    $("body select").msDropDown();
+		  } 
+		  catch(e) {
+		    alert(e.message);
+		  }
 		});
    </script>
   <script src="js/index.js"></script>
