@@ -21,6 +21,7 @@ Jason:
 **Screenshot of app core map functionality:**
 ![Screenshot1](/PostLogin.png)
 ![Screenshot2](/FrontPage.png)
+![Screenshot2](/createPost.png)
 
 **Description of how this feature has improved since Milestone 5:**
 Since Milestone 5, our application has developed a consistent UI theme across our platform. Furthermore, we added important content with respect to the feedback we received in class. For example, each user bubble now displays how long ago an user was active. We have also included a Create Profile option, Create Post option, and readded the zoom map feature for those people who are considering going to farther locations.
