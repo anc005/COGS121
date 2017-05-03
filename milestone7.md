@@ -3,7 +3,7 @@
 **Descriptions of what each team member has done on the project since milestone 5**
 
 Jacob:
-* 
+* Add some forms for a profile page for the user and linked to the map.
 
 Jake:
 * 
