@@ -16,15 +16,16 @@ Description: The user is trying to create a post. The user is on the "+" tab whi
 
 ### Jason Pon
 **Paper Prototype 2**
-![PaperPrototype2](/paper-prototypes/paper5.png)
+![PaperPrototype2](/paper-prototypes2/tmp.jpg)
 Description: 
 
 ### Jacob Pulver
 **Paper Prototype 3**
-![PaperPrototype3](/paper-prototypes/paper3.jpg)
+![PaperPrototype3](/paper-prototypes2/tmp.jpg)
 Description: 
 
 ### Jake Vo
 **Paper Prototype 4**
-![PaperPrototype4](/paper-prototypes/paper4.jpg)
-Description: 
+![PaperPrototype4](/paper-prototypes2/paper4.png)
+Description: At the home page where user can see all the emoji post, he clicks on the post tab and go to the post page where he can choose an emoji and wrote messages then clicks post to make his message and selected emoji display on the map.
+At the home page, user clicks on the profile tab to see / update his profile, such as avatar, email and if he clicks on MyPost button he can see the list of his past posts which includes the post time and when it will be expired.
