@@ -21,8 +21,8 @@ Description:
 
 ### Jacob Pulver
 **Paper Prototype 3**
-![PaperPrototype3](/paper-prototypes2/tmp.jpg)
-Description: 
+![PaperPrototype3](/paper-prototypes2/jacobproto.jpg)
+Description: The user is on the map view and then clicks on the filter button, this brings a drop down list of the various emoji emotions and the user picks happy. The drop down filter menu returns and only the emojis that the user picked are shown on the map.
 
 ### Jake Vo
 **Paper Prototype 4**
