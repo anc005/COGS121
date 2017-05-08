@@ -16,8 +16,8 @@ Description: The user is trying to create a post. The user is on the "+" tab whi
 
 ### Jason Pon
 **Paper Prototype 2**
-![PaperPrototype2](/paper-prototypes2/tmp.jpg)
-Description: 
+![PaperPrototype2](/paper-prototypes2/paper2.png)
+Description: In this prototype we can see the possible ui of interacting with other users and other users' posts. From the map screen we can choose a post, then are presented with options to see the users profile, comment on the post, and ontact them through their preferred contact options. In the user profile, we can directly contact the user, see their bio, and their current and previous posts. Selecting a post allows you to see previous conversations and allows you to add comments.
 
 ### Jacob Pulver
 **Paper Prototype 3**
