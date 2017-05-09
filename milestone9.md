@@ -6,7 +6,8 @@ Jacob:
 *
 
 Jake:
-*
+* Setting node.js and express and working on storing data into json file and
+make it accessible between all pages
 
 Annie:
 *
