@@ -13,29 +13,33 @@
     <img src="./cat.jpg" alt="Icon" class="Icon">
   </div>
   <h1>Your Profile</h1>
-<form action="./map.html" method="post"><!--make action into some jquery/jscript file? and have button onclick go to map? -->
+
+<form onsubmit="addJSON();" action="./map.html">
 
   <div class="container">
     <label><b>First Name</b></label><br>
-    <input type="text" name="fname" required>
+    <input type="text" id="fname" required>
     <br><br>
     <label><b>Last Name</b></label><br>
-    <input type="text" name="lname" required>
+    <input type="text" id="lname" required>
     <br><br>
     <label><b>Email</b></label><br>
-    <input type="text" name="email" required>
+    <input type="text" id="email" required>
     <br><br>
     <label><b>Major</b></label><br>
-    <input type="text" name="major" required>
+    <input type="text" id="major" required>
+    <br><br>
+    <label><b>Hobbies</b></label><br>
+    <input type="text" id="hobby" required>
     <br><br>
     <label><b>Gender</b></label><br>
-    <input type="radio" name="gender" value="male"> Male<br>
-    <input type="radio" name="gender" value="female"> Female<br>
-    <input type="radio" name="gender" value="other"> Prefer not to say
+    <input type="radio" id="gender" value="male"> Male<br>
+    <input type="radio" id="gender" value="female"> Female<br>
+    <input type="radio" id="gender" value="other"> Prefer not to say
     <br><br>
 
   </div>
-    <button type="submit">Save Changes</button>
+    <input type="submit" value="Save Changes">
 
 </form>
 <br>

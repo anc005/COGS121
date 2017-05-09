@@ -29,7 +29,7 @@ input:focus{
     border-color: aquamarine;
 }
 
-button {
+input[type=submit] {
     background-color: salmon;
     color: white;
     padding: 14px;
@@ -42,7 +42,7 @@ button {
     font-size: 16px;
 }
 
-button:hover {
+input[type=submit]:hover {
     opacity: 0.8;
 }
 
