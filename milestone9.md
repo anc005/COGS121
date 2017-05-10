@@ -10,7 +10,7 @@ Jake:
 make it accessible between all pages
 
 Annie:
-*
+* Updated consistent UI for Create a Post, and header. Incorporated the Profile feature and its respected UI.
 
 Jason:
 * Incorporated firebase realtime database into the web application, allowing users to create posts that are persistently stored.
@@ -19,3 +19,4 @@ Jason:
 ![Screenshot1]()
 
 **Description of how this feature has improved since Milestone 7:**
+Since milestone 7, we now have a Profile page for the user, uniform UI across all pages, ------add other stuff--------
