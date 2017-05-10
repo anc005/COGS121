@@ -3,7 +3,7 @@
 **Descriptions of what each team member has done on the project since milestone 7**
 
 Jacob:
-*
+* Fixed minor bugs and typos across CSS and views.
 
 Jake:
 * Setting node.js and express and working on storing data into json file and
