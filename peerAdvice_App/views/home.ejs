@@ -64,7 +64,7 @@
                 <img src="icons/angry.png">
               </label>
 <!--             <select name="webmenu" id="webmenu">
-			         <option id="emojoSelect" value="calendar" data-image="icons/1f613.png">Sad</option>
+			         <option id="emojoSelect" value="calendar" data-image="icons/sad.png">Sad</option>
   			     </select> -->
              <br><br>
             <label>Status: </label>
@@ -156,7 +156,7 @@
 		    database.ref('posts/' + 'id: ' + (i)).once('value', snaps => {
 		      var marker = new google.maps.Marker({
 				  position: new google.maps.LatLng(snaps.val().latitude, snaps.val().longitude),
-				  icon: 'icons/1f602.png',
+				  icon: 'icons/sad.png',
 				  map: map
 				});
 				var infoWin = new google.maps.InfoWindow({
@@ -205,6 +205,8 @@
         } 
 		else {
 		  createPost();
+		  alert("Post Created!");
+		  window.location.href("/");
         }
     }
 
@@ -233,13 +235,13 @@
             };
             var icons = {
 			  happy: {
-			  	  icon: 'http://icons.iconarchive.com/icons/icons-land/flat-emoticons/48/Adore-icon.png'
+			  	  icon: 'icons/sinister.png'
 			  },
 			  neutral: {
-			  	  icon: 'http://icons.iconarchive.com/icons/icons-land/flat-emoticons/48/Cool-icon.png'
+			  	  icon: 'icons/meh.png'
 			  },
 			  sad: {
-			  	  icon: 'icons/1f613.png'
+			  	  icon: 'icons/sad.png'
 			  }
 			};
 			var posts = [
@@ -293,7 +295,7 @@
               position: pos,
               map: map,
               title: 'I Am Here',
-              icon: {
+			  icon: {
 			    path: google.maps.SymbolPath.CIRCLE,
 				scale: 10
 			  }
