@@ -6,13 +6,16 @@ body {
     width: 100%;
     min-width: 320px;
     font-family: sans-serif;
-    background-color: rgba(250, 250, 255, 1);
+    background-color: aquamarine;
+}
+#mc{
+    font-size: 30px;
 }
 
-main {
+/*main {
     padding-top: 46px;
     padding-bottom: 51px;
-}
+}*/
 
 main tab-section {
     display: none;
@@ -24,7 +27,8 @@ main tab-section.active {
 
 
 #map {
-height: 100%;
+    margin-top: 10px;
+    height: calc(100% - 10px);
 }
 html, body{
  height: 100%;
@@ -72,22 +76,38 @@ li a {
     left: 0;
  }
 
-#map {
-    height: 100%;
-}
-
 
 button{
 	    font-family: 'Nunito', sans-serif;
 
 }
 
-#found-form {
+/*#found-form {
     padding: 15px;
+}*/
+
+
+label > input{ /* HIDE RADIO */
+  visibility: hidden; /* Makes input not-clickable */
+  position: absolute; /* Remove input from document flow */
+}
+label > input + img{ /* IMAGE STYLES */
+  cursor:pointer;
+  border:2px solid transparent;
+}
+label > input:hover + img{ /* (RADIO CHECKED) IMAGE STYLES */
+  border:2px solid aquamarine;
+}
+label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+  border:2px solid salmon;
 }
 
+
+
+
 #found-form label {
-    display: block;
+
+  /*  display: block;*/
  /*   margin: 15px 0;*/
 }
 input:focus, select:focus, textarea:focus, button:focus {
@@ -115,8 +135,14 @@ textarea#found-description{
 }
 
 #found-form{
+    margin-top:3%;
     width:80%;
-    margin-left: 10%;
+    margin-left: calc(10% - 30px);
+
+    background-color: white;
+    border-radius:20px;
+    padding:30px;
+    height:100%;
 }
 /*#found-form input {
     border-radius: 3px;
@@ -124,8 +150,12 @@ textarea#found-description{
   width: 90%;
 }
 */
+
+
+
 #found-form textarea {
-    font-family: 'Nunito', sans-serif;
+/*    padding:10px;
+*/    font-family: 'Nunito', sans-serif;
     resize: none;
     border-radius: 3px;
     border: 2px solid rgba(230, 230, 230, 1);
@@ -136,14 +166,22 @@ textarea#found-description{
 #found-form button {
     margin-top: 15px;
     padding: 0;
-    height: 35px;
-    line-height: 40px;
-    width: 90%;
-    border-radius: 3px;
+    height: 50px;
+/*    line-height: 40px;
+*/    width: 90%;
+    border-radius: 8px;
     border: none;
     text-align: center;
-    background-color: aquamarine;
+    background-color: salmon;
     color: rgba(255, 255, 255, 1);
+    width:50%;
+    margin-left: 25%;
+    font-size: 20px;
+}
+
+#found-form button:hover {
+    background-color:aquamarine;
+    cursor: pointer;
 }
 
 footer {
@@ -155,7 +193,7 @@ footer {
     width: 100%;
     height: 40px;
     box-shadow: 0 0 10px rgba(150, 150, 150, 0.2);
-    background-color: salmon ;
+    background-color: aquamarine ;
 }
 
 footer tab {
@@ -168,7 +206,7 @@ footer tab {
 }
 
 footer tab:hover {
-    background-color: aquamarine;
+    background-color: salmon;
 }
 
 footer tab:active {
@@ -178,16 +216,29 @@ footer tab:active {
 footer tab.active {
     color: white;
     line-height: 45px;
-    border-top: 2px solid white);
-    background-color: aquamarine
+   /* border-top: 2px solid white;*/
+    background-color: salmon;
 
 }
-
+.logout{
+    color:white;
+    margin-top: -35px;
+    float: right;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: salmon;
+}
+.logout:hover{
+    color:salmon;
+    background-color: white;
+}
 #navbar {
-	
-	
-	
-    line-height: 8px;
+	padding: 8px;
+    line-height: 12px;
     
+}
+
+.profileContainer{
+    margin-left: 22%;
 }
 
