@@ -13,7 +13,7 @@ Annie:
 *
 
 Jason:
-*
+* Incorporated firebase realtime database into the web application, allowing users to create posts that are persistently stored.
 
 **Screenshot of app core map functionality:**
 ![Screenshot1]()
