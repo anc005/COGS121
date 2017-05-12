@@ -107,10 +107,20 @@
 
     </tab-section>
 
+	<tab-section id="post-tab-section">
+	  <ul id="commentList" style="position:fixed; border-top:solid; border-bottom:solid; height:70%; width:50%; left:25%; overflow: auto">
+	  </ul>
+	  <form action="javascript:addComment(inText.value)" style="position:absolute; top:80%; left:30%">
+        <input type="text" id="inText" required>
+        <input type="submit" value="Comment">
+      </form>
+	</tab-section>
+
   </main>
   <footer class="btn-group" id="footer">
             <tab id="lost-tab" class="active">Home</tab>
             <tab id="found-tab">Create a Post</tab>
+		    <tab id="post-tab">Post Comments</tab>
             <tab id="profile-tab">Profile</tab>
   </footer>
 
@@ -136,6 +146,49 @@
   dbRefCount.on('value', snapshot => {
     nextPostId = snapshot.val();
   });
+
+  //***TEST*** Load comments from post 1 on map page load
+  database.ref('postComment/' + '1/').once('value', snapshot1 => {
+    //Get # of comments once
+    for(x = 1; x < snapshot1.val().nextM; x++) {
+	  //Display comments
+	  database.ref('postComment/' + '1/' + 'm' + x).once('value', snapshot2 => {
+	    const newA = document.createElement('a');
+	    const li = document.createElement('li');
+	    newA.innerText = snapshot2.val().user + ': ' + snapshot2.val().message;
+		li.appendChild(newA);
+		commentList.appendChild(li);
+	  });
+	} 
+  });
+  //If comments # of comments changes, create new element for newest comment
+  database.ref('postComment/' + '1/' + 'nextM').on('value', snapshot1 => {
+    database.ref('postComment/' + '1/' + 'm' + (snapshot1.val() - 1)).once('value', snapshot2 => {
+	  const newA = document.createElement('a');
+	  const li = document.createElement('li');
+	  newA.innerText = snapshot2.val().user + ': ' + snapshot2.val().message;
+      li.appendChild(newA);
+	  commentList.appendChild(li);
+	});
+  });
+
+  function addComment(msg) {
+    //Get the nextM value
+    database.ref('postComment/' + '1/').once('value', snapshot1 => {
+	  //Create mX, where X = valueOf(nextM)
+	  database.ref('postComment/' + '1/' + 'm' + snapshot1.val().nextM).set({
+	    user: "Anon",
+		message: msg
+	  });
+	  //Increment nextM
+	  database.ref('postComment/' + '1/').update({
+	    nextM: snapshot1.val().nextM + 1
+	  });
+	});
+	//Clear comment field
+	inText.value = "";
+  }
+
 
   function createPost() {
     navigator.geolocation.getCurrentPosition(function(position) {
