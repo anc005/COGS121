@@ -1,5 +1,54 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
+#commentList{
+    background-color: white;
+   
+    border-radius: 10px;
+}
+ #commentBox{
+    background-color: transparent !important;
+    position: absolute;
+    top:80%;
+    left:29%;
+
+}
+#inText{
+        background-color: rgba(5,5,5,.1) !important;
+
+    border-color:white;
+    color:black;
+}
+#inText:focus{
+    border-color:salmon;
+    color:black;
+}
+#commentSubmission{
+    background-color:salmon;
+    font-family: sans-serif;
+    font-size: 15px;
+    padding: 10px;
+    width: 110px;
+    color:white;
+    border-radius: 5px;
+    border: none;
+}
+
+#commentSubmission:hover{
+    background-color: white;
+    color:salmon;
+}
+
+
+/*profile button*/
+.profileBut{
+    background:none;
+    border: none;
+}
+.profileBut:hover{
+    color:blue;
+    cursor: pointer;
+}
+
 body {
     padding: 0;
     margin: 0;

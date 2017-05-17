@@ -105,11 +105,13 @@
     </tab-section>
 
 	<tab-section id="post-tab-section">
-	  <ul id="commentList" style="position:fixed; border-top:solid; border-bottom:solid; height:70%; width:50%; left:25%; overflow: auto">
+<!-- 	  <ul id="commentList" style="position:fixed; border-top:solid; border-bottom:solid; height:70%; width:50%; left:25%; overflow: auto">
+ -->    <ul id="commentList" style="position:fixed; height:70%; width:50%; left:25%; overflow: auto">
+
 	  </ul>
-	  <form action="javascript:addComment(inText.value)" style="position:absolute; top:80%; left:30%">
+	  <form id="commentBox" action="javascript:addComment(inText.value)" >
         <input type="text" id="inText" required>
-        <input type="submit" value="Comment">
+        <input type="submit" value="Comment" id="commentSubmission">
       </form>
 	</tab-section>
 
@@ -209,13 +211,18 @@
 	}
 
 function toggle() {
-    var x = document.getElementById('myDIV');
-    if (x.style.display === 'none') {
+    var x = document.getElementsByClassName("myDIV");
 
-        x.style.display = 'block';
-    } 
-    else {
-        x.style.display = 'none';
+
+    for(var i = 0; i<x.length; i++){
+
+      if (x[i].style.display === 'none') {
+
+          x[i].style.display = 'block';
+      } 
+      else {
+          x[i].style.display = 'none';
+      }
     }
 }
 
@@ -254,7 +261,7 @@ function toggle() {
 				var infoWin = new google.maps.InfoWindow({
 				  content: '<div class="dHeader">' + snaps.val().username + '</div>' +
 				    			'<div class="description">"' + snaps.val().description + '"</div>' +
-				    			'<br><center><button onclick="toggle()"><i class="fa fa-users fa-2x"></i></button><div id="myDIV" style="display:none">  Occupation: Student <br> Hobbies: Soccer, Art</div>|<i class="fa fa-phone fa-2x"></i>|<a href="javascript:postComments(' + snaps.val().commentId + ')"><i class="fa fa-comments fa-2x"></i></a></center>' +
+				    			'<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-2x"></i></button><div class="myDIV" style="display:none">  Occupation: Student <br> Hobbies: Soccer, Art</div>|<i class="fa fa-phone fa-2x"></i>|<a href="javascript:postComments(' + snaps.val().commentId + ')"><i class="fa fa-comments fa-2x"></i></a></center>' +
 								'<a>'+ snaps.val().timestamp +'</a>'
 				});
 				marker.addListener('click', function() {
