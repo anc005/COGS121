@@ -7,14 +7,15 @@ Jacob:
 * Working on the post error for singup/login.
 
 Jake:
-*
+* Implemented displaying and storing the emoji that the user chooses when making a post
 
 Annie:
 * Created UI to display profile information of each individual user. 
 * Adjusted Post Comments UI to adopt uniform look of application.
 
 Jason:
-*
+* Started implentation of UI for a post's comment page.
+* Began implementation of individual comments page instance per post
 
 **Screenshot of rest of app's UI:**
 ![Screenshot1](/milestone11screenshot1.png)
