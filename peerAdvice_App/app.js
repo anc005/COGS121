@@ -12,7 +12,12 @@ var data = fs.readFileSync('./public/posts.json');
 
 var post = JSON.parse(data);
 
+var bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', function (req, res) {
   res.render('home');
@@ -27,11 +32,18 @@ app.get('/signup', function (req, res) {
 });
 
 app.post('/signup', function (req, res) {
-	var email = req.body.email;
-	var username = req.body.user;
-	var password = req.body.pass;
-	res.render('home';)
-	//push this as an object into data?
+	//need to figure out way to get data from forms and push to database
+	console.log(req.body.email);
+	console.log(req.body.user);
+	console.log(req.body.pass);
+	res.redirect('/');
+});
+
+app.post('/login', function (req, res) {
+	//get data from forms and check with database
+	console.log(req.body.user);
+	console.log(req.body.pass);
+	res.redirect('/');
 });
 
 app.listen(3000, function() {
