@@ -105,9 +105,9 @@
     </tab-section>
 
 	<tab-section id="post-tab-section">
-<!-- 	  <ul id="commentList" style="position:fixed; border-top:solid; border-bottom:solid; height:70%; width:50%; left:25%; overflow: auto">
- -->    <ul id="commentList" style="position:fixed; height:70%; width:50%; left:25%; overflow: auto">
-
+	  <a id="username" style="position:absolute; left:1%; top:25%"></a>
+	  <a id="postDesc" style="position:absolute; left:1%; top:30%"></a>
+      <ul id="commentList" style="position:fixed; height:70%; width:50%; left:25%; overflow: auto">
 	  </ul>
 	  <form id="commentBox" action="javascript:addComment(inText.value)" >
         <input type="text" id="inText" required>
@@ -158,7 +158,11 @@
 	else {
 	  Alert("This web application's features is not supported on your browser");
 	}
-	//postSelect = postNum;
+
+	database.ref('posts/' + 'id: ' + postNum + '/').once('value', snapshot => {
+	  username.text = snapshot.val().username;
+	  postDesc.text = snapshot.val().description;
+	});
   database.ref('postComment/' + postNum).once('value', snapshot1 => {
     //Get # of comments once
     for(x = 1; x < snapshot1.val().nextM; x++) {
@@ -228,72 +232,61 @@ function toggle() {
 
   function createPost() {
     var currentTime = moment().calendar();
-    navigator.geolocation.getCurrentPosition(function(position) {
+	if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
 
-    //Setup comments for this post
-	database.ref('postComment/' + nextPostId).set({
-	  nextM: 1
-	});
+      //Setup comments for this post
+	  database.ref('postComment/' + nextPostId).set({
+	    nextM: 1
+	  });
 
-    database.ref('posts/' + 'id: ' + nextPostId).set({
-	            commentId: nextPostId,
-                username: "Anon",
-				image: name,
-				description: $("#found-description").val(),
-				latitude: position.coords.latitude,
-				longitude: position.coords.longitude,
-				timestamp: currentTime
-            });
-			database.ref('nextId/').update({
-			  posts: nextPostId + 1
-			});
-    });
+      database.ref('posts/' + 'id: ' + nextPostId).set({
+	    commentId: nextPostId,
+        username: "Anon",
+		image: name,
+		description: $("#found-description").val(),
+		latitude: position.coords.latitude,
+		longitude: position.coords.longitude,
+		timestamp: currentTime
+      });
+	  database.ref('nextId/').update({
+	    posts: nextPostId + 1
+	  });
+	  alert("Post Created!");
+	  window.location.href("/");
+	  }, function() {
+	    alert("Error: Post Not Created");
+		window.location.href("/");
+        handleLocationError(true, infoWindow, map.getCenter());
+      });
+      } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+      }
   }
-
-  		dbRefPosts.once('value', snap => {
-		  for(i = 1; i < nextPostId; i++) {
-		    database.ref('posts/' + 'id: ' + (i)).once('value', snaps => {
+      //Display all posts on the map on Page Load (static; will not change in real time)
+      dbRefPosts.once('value', snap => {
+        for(i = 1; i < nextPostId; i++) {
+		  database.ref('posts/' + 'id: ' + (i)).once('value', snaps => {
+		    if(snaps.val() != null) {
 		      var marker = new google.maps.Marker({
-				  position: new google.maps.LatLng(snaps.val().latitude, snaps.val().longitude),
-				  icon: 'icons/' + snaps.val().image + '.png',
-				  map: map
-				});
-				var infoWin = new google.maps.InfoWindow({
-				  content: '<div class="dHeader">' + snaps.val().username + '</div>' +
-				    			'<div class="description">"' + snaps.val().description + '"</div>' +
-				    			'<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-2x"></i></button><div class="myDIV" style="display:none">  Occupation: Student <br> Hobbies: Soccer, Art</div>|<i class="fa fa-phone fa-2x"></i>|<a href="javascript:postComments(' + snaps.val().commentId + ')"><i class="fa fa-comments fa-2x"></i></a></center>' +
-								'<a>'+ snaps.val().timestamp +'</a>'
-				});
-				marker.addListener('click', function() {
-				  infoWin.open(map, marker);
-				});
-		    });
-		  }
-		});
-
-
-	function initMap() {
-        $("#map-loading").fadeOut();
-        getGeoPosition(function (pos) {
-
-	        currentloc = pos;
-            map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 16,
-                center: pos
-            });
-            var marker = new google.maps.Marker({
-                position: pos,
-                icon: "img/self.png",
-                map: map
-            });
-        });
-    }
-
-	function getGeoPosition(callback) {
-        navigator.geolocation.getCurrentPosition(function (info) {
-			callback({lat: info.coords.latitude, lng: info.coords.longitude});
-		});
-    }
+		        position: new google.maps.LatLng(snaps.val().latitude, snaps.val().longitude),
+		  	    icon: 'icons/' + snaps.val().image + '.png',
+		        map: map
+	   	      });
+			  var infoWin = new google.maps.InfoWindow({
+			    content: '<div class="dHeader">' + snaps.val().username + '</div>' +
+				         '<div class="description">"' + snaps.val().description + '"</div>' +
+				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-2x"></i></button><div class="myDIV" style="display:none">  Occupation: Student <br> Hobbies: Soccer, Art</div>|<i class="fa fa-phone fa-2x"></i>|<a href="javascript:postComments(' + snaps.val().commentId + ')"><i class="fa fa-comments fa-2x"></i></a></center>' +
+					     '<a>'+ snaps.val().timestamp +'</a>'
+		      });
+		   	  marker.addListener('click', function() {
+		        infoWin.open(map, marker);
+			  });
+			}
+		  });
+		}
+      });
 
   	function postEmoji() {
         var name, description;
@@ -302,8 +295,6 @@ function toggle() {
         }
 		else {
 		  createPost();
-		  alert("Post Created!");
-		  window.location.href("/");
         }
     }
 
@@ -315,7 +306,7 @@ function toggle() {
         center: {lat: 32.87699, lng: -117.2365},
 		zoom: 16
     });
-	infoWindow = new google.maps.InfoWindow({content:'<p class="hook">Hello World!</p>'});
+	infoWindow = new google.maps.InfoWindow({content:'<p class="hook">I Am Here</p>'});
     // Try HTML5 geolocation.
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
@@ -335,7 +326,6 @@ function toggle() {
             });
 
             infoWindow.setPosition(pos);
-            infoWindow.setContent('I Am Here');
             infoWindow.open(map);
             map.setCenter(pos);
 
@@ -347,6 +337,14 @@ function toggle() {
           handleLocationError(false, infoWindow, map.getCenter());
         }
       }
+
+	  function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+	    infoWindow.setPosition(pos);
+		infoWindow.setContent(browserHasGeolocation ?
+		                      'Error: The Geolocation service failed.' :
+							  'Error: Your browser doesn\'t support geolocation.');
+		infoWindow.open(map);
+	  }
      
   </script>
   <script src="js/index.js"></script>
