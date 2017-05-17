@@ -7,7 +7,8 @@ Jacob:
 * Working on the post error for singup/login.
 
 Jake:
-* Implemented displaying and storing the emoji that the user chooses when making a post
+* Implemented storing the emoji into firebase and loading them on the map.
+* Using moment.js to get the current time and working on calculating how long ago the post is posted
 
 Annie:
 * Created UI to display profile information of each individual user. 
