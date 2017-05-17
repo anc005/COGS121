@@ -3,7 +3,8 @@
 **Descriptions of what each team member has done on the project since milestone 9**
 
 Jacob:
-* 
+* Fixed timestamp to properly display time of a post.
+* Working on the post error for singup/login.
 
 Jake:
 *

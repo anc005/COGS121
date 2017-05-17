@@ -253,7 +253,7 @@ function toggle() {
 				  icon: 'icons/' + snaps.val().image + '.png',
 				  map: map
 				});
-				var infoWin = new google.maps.InfoWindow({
+				var infoWin = new google.maps.InfoWigitndow({
 				  content: '<div class="dHeader">' + snaps.val().username + '</div>' +
 				    			'<div class="description">"' + snaps.val().description + '"</div>' +
 				    			'<br><center><button onclick="toggle()"><i class="fa fa-users fa-2x"></i></button><div id="myDIV" style="display:none">  Occupation: Student <br> Hobbies: Soccer, Art</div>|<i class="fa fa-phone fa-2x"></i>|<a href="javascript:postComments(' + snaps.val().commentId + ')"><i class="fa fa-comments fa-2x"></i></a></center>' +
