@@ -141,6 +141,7 @@
   const dbRefPosts = database.ref().child("posts");
   var nextPostId;
   var dbRefCount = database.ref('nextId' + '/posts');
+  //database.ref().child("posts").remove(); //cleared the posts to better test
   dbRefCount.on('value', snapshot => {
     nextPostId = snapshot.val();
   });
@@ -219,9 +220,9 @@ function toggle() {
         x.style.display = 'none';
     }
 }
-  function createPost() {
 
-    var currentTime = moment().format('MMMM Do YYYY, h:mm:ss a');
+  function createPost() {
+    var currentTime = moment().calendar();
     navigator.geolocation.getCurrentPosition(function(position) {
 
     //Setup comments for this post
@@ -256,7 +257,7 @@ function toggle() {
 				  content: '<div class="dHeader">' + snaps.val().username + '</div>' +
 				    			'<div class="description">"' + snaps.val().description + '"</div>' +
 				    			'<br><center><button onclick="toggle()"><i class="fa fa-users fa-2x"></i></button><div id="myDIV" style="display:none">  Occupation: Student <br> Hobbies: Soccer, Art</div>|<i class="fa fa-phone fa-2x"></i>|<a href="javascript:postComments(' + snaps.val().commentId + ')"><i class="fa fa-comments fa-2x"></i></a></center>' +
-								'<a>'+ moment().calendar() +'</a>'
+								'<a>'+ snaps.val().timestamp +'</a>'
 				});
 				marker.addListener('click', function() {
 				  infoWin.open(map, marker);
@@ -264,8 +265,7 @@ function toggle() {
 		    });
 		  }
 		});
-</script>
-  <script>
+
 
 	function initMap() {
         $("#map-loading").fadeOut();
@@ -293,7 +293,7 @@ function toggle() {
   	function postEmoji() {
         var name, description;
         if ((description = $("#found-description").val()) == "") {
-            alert("Fills are blanks");
+            alert("Please add a description.");
         }
 		else {
 		  createPost();
