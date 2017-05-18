@@ -13,13 +13,13 @@
     <img src="/cat.jpg" alt="Icon" class="Icon">
   </div>
   <h1>MapChat</h1>
-  <form action="/login" method="post">
+  <form action="javascript:loginAccount()">
     <div class="container">
       <label><b>Username</b></label><br>
-      <input type="text" name="user" required>
+      <input type="text" name="user" id="email" required>
       <br><br>
       <label><b>Password</b></label><br>
-      <input type="password" name="pass" required>
+      <input type="password" name="pass" id="password" required>
       <br><br>
     </div>
     <button type="submit">LOGIN</button>
@@ -27,4 +27,49 @@
   <br>
   <h5>Don't have an account? <a href="/signup" style="color:blue;"> Sign-Up!</a></h5>
 </body>
+
+  <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCBhEOwCcoCumMv4rem4VvcymsJajE3kgI",
+      authDomain: "peeradvisor-165319.firebaseapp.com",
+      databaseURL: "https://peeradvisor-165319.firebaseio.com",
+      projectId: "peeradvisor-165319",
+      storageBucket: "peeradvisor-165319.appspot.com",
+      messagingSenderId: "1073760765111"
+    };
+    firebase.initializeApp(config);
+
+  function loginAccount() {
+      const user = document.getElementById("email").value;
+      const pw = document.getElementById("password").value;
+      const promise = firebase.auth().signInWithEmailAndPassword(user, pw).catch(function (error) {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          if (errorCode == 'auth/user-not-found') {
+              alert("Error: No account exists for that email address");
+          }
+          else if (errorCode == 'auth/wrong-password') {
+              alert("Error: Incorrect password. Try again.");
+          }
+          else {
+              alert(errorMessage);
+          }
+          console.log(error);
+      });
+  }
+
+  firebase.auth().onAuthStateChanged(firebaseUser => {
+     if (firebaseUser) {
+        console.log(firebaseUser);
+        window.location.href = "/";
+    }
+    else {
+        console.log("not logged in");
+    }
+  });
+  </script>
+
+
 </html>

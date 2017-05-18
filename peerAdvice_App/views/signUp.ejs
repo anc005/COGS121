@@ -14,7 +14,7 @@
   </div>
   <h1>MapChat</h1>
 
-  <form action="/signup" method="post">
+  <form action="javascript:createAccount()">
     <div class="container">
       <label><b>Email</b></label><br>
       <input type="text" name="email" id="email" required>
@@ -23,7 +23,7 @@
       <input type="text" name="user" required>
       <br><br>
       <label><b>Password</b></label><br>
-      <input type="password" name="pass" required>
+      <input type="password" name="pass" id="password" required>
       <br><br>
     </div>
     <button type="submit">SIGN-UP</button>
@@ -32,5 +32,49 @@
 
   <h5>Have an account? <a href="/login" style="color:blue;"> Login!</a></h5>
 
+  
+  <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCBhEOwCcoCumMv4rem4VvcymsJajE3kgI",
+      authDomain: "peeradvisor-165319.firebaseapp.com",
+      databaseURL: "https://peeradvisor-165319.firebaseio.com",
+      projectId: "peeradvisor-165319",
+      storageBucket: "peeradvisor-165319.appspot.com",
+      messagingSenderId: "1073760765111"
+    };
+    firebase.initializeApp(config);
+
+  function createAccount() {
+      const user = document.getElementById("email").value;
+      const pw = document.getElementById("password").value;
+      firebase.auth().createUserWithEmailAndPassword(user, pw).catch(function(error) {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          if(errorCode == 'auth/invalid-email') {
+            alert("Error: Oops, the email address you entered does not look valid.");
+          }
+          else if (errorCode == 'auth/weak-password') {
+              alert("Error: Password length must be 6 or more characters long.")
+          }
+          else {
+              alert(errorMessage);
+          }
+          console.log(error);
+      });
+  }
+
+  firebase.auth().onAuthStateChanged(firebaseUser => {
+      if (firebaseUser) {
+          alert("Account Created! Welcome to MapChat!!");
+          window.location.href = "/";
+          console.log(firebaseUser);
+      }
+      else {
+          console.log("not logged in");
+      }
+  });
+  </script>
 </body>
 </html>

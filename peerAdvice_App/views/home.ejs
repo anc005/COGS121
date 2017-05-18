@@ -20,7 +20,7 @@
 <body>
   <ul id="navbar">
     <li><a id="mc" href="/"><b>MapChat</b></a></li>
-	<a href="/login" class="logout"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+	<a href="javascript:logout()" class="logout"><i class="fa fa-power-off" aria-hidden="true"></i></a>
   </ul>
 
    <main>
@@ -105,8 +105,9 @@
     </tab-section>
 
 	<tab-section id="post-tab-section">
-	  <a id="username" style="position:absolute; left:1%; top:25%"></a>
-	  <a id="postDesc" style="position:absolute; left:1%; top:30%"></a>
+	  <a id="username" style="position:absolute; left:5%; top:15%"></a>
+	  <a id="postDesc" style="position:absolute; left:5%; top:20%"></a>
+	  <a id="postTime" style="position:absolute; left:5%; top:25%"></a>
       <ul id="commentList" style="position:fixed; height:70%; width:50%; left:25%; overflow: auto">
 	  </ul>
 	  <form id="commentBox" action="javascript:addComment(inText.value)" >
@@ -117,9 +118,9 @@
 
   </main>
   <footer class="btn-group" id="footer">
-            <tab id="lost-tab" class="active">Home</tab>
+            <tab id="lost-tab" class="active">Map</tab>
 		    <tab id="post-tab">Post's Comments</tab>
-            <tab id="found-tab">Create a Post</tab>
+            <tab id="found-tab">Create Post</tab>
             <tab id="profile-tab">Profile</tab>
   </footer>
 
@@ -146,6 +147,11 @@
     nextPostId = snapshot.val();
   });
 
+  function logout() {
+    firebase.auth().signOut();
+    window.location.href = "/login";
+  }
+
   //Load this post's comments if clicked
   function postComments(postNum) {
     //Clear data from post comments page
@@ -158,48 +164,64 @@
 	else {
 	  Alert("This web application's features is not supported on your browser");
 	}
-
+	//Display post metadata
 	database.ref('posts/' + 'id: ' + postNum + '/').once('value', snapshot => {
 	  username.text = snapshot.val().username;
 	  postDesc.text = snapshot.val().description;
+	  postTime.text = snapshot.val().timestamp;
 	});
-  database.ref('postComment/' + postNum).once('value', snapshot1 => {
-    //Get # of comments once
-    for(x = 1; x < snapshot1.val().nextM; x++) {
-	  //Display comments
-	  database.ref('postComment/' + postNum + '/m' + x).once('value', snapshot2 => {
-	    const newA = document.createElement('a');
-	    const li = document.createElement('li');
-	    newA.innerText = snapshot2.val().user + ': ' + snapshot2.val().message;
-		li.appendChild(newA);
-		commentList.appendChild(li);
-	  });
-	}
-  });
+	//Display all existing comments
+    database.ref('postComment/' + postNum).once('value', snapshot1 => {
+	  window.sessionStorage.setItem("numOfComments", (snapshot1.val().nextM) - 1);
+      //Get # of comments once
+      for(x = 1; x < snapshot1.val().nextM; x++) {
+	    //Display comments
+        database.ref('postComment/' + postNum + '/m' + x).once('value', snapshot2 => {
+	      const newA = document.createElement('a');
+	      const li = document.createElement('li');
+	      newA.innerText = snapshot2.val().user + ': ' + snapshot2.val().message;
+  	      li.appendChild(newA);
+		  commentList.appendChild(li);
+	    });
+	  }
+    });
+    database.ref('postSelect/').update({
+	  num: postNum
+	});
+	dynamicUpdate();
   }
 
   var postSelect = sessionStorage.postSelect;
+  function dynamicUpdate() {
   //If comments # of comments changes, create new element for newest comment
-  database.ref('postComment/' + postSelect + '/nextM').on('value', snapshot1 => {
-    database.ref('postComment/' + postSelect + '/m' + (snapshot1.val() - 1)).once('value', snapshot2 => {
+  database.ref('postSelect/' + 'num').on('value', snapshot => {
+  
+  database.ref('postComment/' + snapshot.val() + '/nextM').on('value', snapshot1 => {
+  //alert("NumOfComments: " + sessionStorage.numOfComments);
+  if(snapshot1.val() - 1 != sessionStorage.numOfComments) {
+    //alert("Execute");
+    database.ref('postComment/' + snapshot.val() + '/m' + (snapshot1.val() - 1)).once('value', snapshot2 => {
 	  const newA = document.createElement('a');
 	  const li = document.createElement('li');
 	  newA.innerText = snapshot2.val().user + ': ' + snapshot2.val().message;
       li.appendChild(newA);
 	  commentList.appendChild(li);
 	});
+  }
   });
+  });
+  }
 
   function addComment(msg) {
     //Get the nextM value
-    database.ref('postComment/' + postSelect + '/').once('value', snapshot1 => {
+    database.ref('postComment/' + sessionStorage.postSelect + '/').once('value', snapshot1 => {
 	  //Create mX, where X = valueOf(nextM)
-	  	database.ref('postComment/' + postSelect + '/m' + snapshot1.val().nextM).set({
+	  database.ref('postComment/' + sessionStorage.postSelect + '/m' + snapshot1.val().nextM).set({
 	      user: "Anon",
 		  message: msg
 	  });
 	  //Increment nextM
-	  database.ref('postComment/' + postSelect + '/').update({
+	  database.ref('postComment/' + sessionStorage.postSelect + '/').update({
 	    nextM: snapshot1.val().nextM + 1
 	  });
 	});
@@ -253,10 +275,10 @@ function toggle() {
 	    posts: nextPostId + 1
 	  });
 	  alert("Post Created!");
-	  window.location.href("/");
+	  window.location.href="/";
 	  }, function() {
 	    alert("Error: Post Not Created");
-		window.location.href("/");
+		window.location.href="/";
         handleLocationError(true, infoWindow, map.getCenter());
       });
       } else {
