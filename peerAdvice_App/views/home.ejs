@@ -105,10 +105,12 @@
     </tab-section>
 
 	<tab-section id="post-tab-section">
-	  <a id="username" style="position:absolute; left:5%; top:15%"></a>
-	  <a id="postDesc" style="position:absolute; left:5%; top:20%"></a>
-	  <a id="postTime" style="position:absolute; left:5%; top:25%"></a>
+	  <a id="username" style="position:absolute; left:5%; top:15%">Name: No Post Selected.</a>
+	  <a id="postDesc" style="position:absolute; left:5%; top:20%">Description: No Post Selected.</a>
+	  <a id="postTime" style="position:absolute; left:5%; top:25%">Time: No Post Selected.</a>
       <ul id="commentList" style="position:fixed; height:70%; width:50%; left:25%; overflow: auto">
+	    <li><a>Welcome to MapChat!</a></li>
+		<li><a>Please select a post from the Map!</a></li>
 	  </ul>
 	  <form id="commentBox" action="javascript:addComment(inText.value)" >
         <input type="text" id="inText" required>
@@ -119,12 +121,12 @@
   </main>
   <footer class="btn-group" id="footer">
             <tab id="lost-tab" class="active">Map</tab>
-		    <tab id="post-tab">Post's Comments</tab>
+		    <tab id="post-tab">Chat</tab>
             <tab id="found-tab">Create Post</tab>
-            <tab id="profile-tab">Profile</tab>
+            <tab id="profile-tab">Edit Profile</tab>
   </footer>
 
-<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
 <script>
   // Initialize Firebase
   var config = {
@@ -147,86 +149,86 @@
     nextPostId = snapshot.val();
   });
 
+  //On page load, check if a user is logged in
+  if (sessionStorage.user) {
+    console.log(sessionStorage.user);
+  }
+  else {
+    alert("Error: Must login to access this page.");
+    window.location.href="/login";
+  }
+
+  //On page load, set postSelect to null
+  sessionStorage.removeItem("postSelect");
+
+  //Logout function
   function logout() {
+    sessionStorage.removeItem("user");
+	sessionStorage.removeItem("postSelect");
     firebase.auth().signOut();
     window.location.href = "/login";
   }
 
-  //Load this post's comments if clicked
-  function postComments(postNum) {
+  function postComments(userkey) {
+	console.log("Post Comments: " + userkey);
+	database.ref('users/' + sessionStorage.postSelect + '/postComments').off();
     //Clear data from post comments page
 	while (commentList.hasChildNodes()) {
 	  commentList.removeChild(commentList.firstChild);
 	}
+	
 	if (typeof(Storage) !== "undefined") {
-	  window.sessionStorage.setItem("postSelect", postNum);
+	  window.sessionStorage.setItem("postSelect", userkey);
 	}
 	else {
 	  Alert("This web application's features is not supported on your browser");
 	}
 	//Display post metadata
-	database.ref('posts/' + 'id: ' + postNum + '/').once('value', snapshot => {
-	  username.text = snapshot.val().username;
-	  postDesc.text = snapshot.val().description;
-	  postTime.text = snapshot.val().timestamp;
+	database.ref('users/' + userkey + '/').once('value' , snapshot1 => {
+	  username.text = snapshot1.val().username;
 	});
-	//Display all existing comments
-    database.ref('postComment/' + postNum).once('value', snapshot1 => {
-	  window.sessionStorage.setItem("numOfComments", (snapshot1.val().nextM) - 1);
-      //Get # of comments once
-      for(x = 1; x < snapshot1.val().nextM; x++) {
-	    //Display comments
-        database.ref('postComment/' + postNum + '/m' + x).once('value', snapshot2 => {
-	      const newA = document.createElement('a');
-	      const li = document.createElement('li');
-	      newA.innerText = snapshot2.val().user + ': ' + snapshot2.val().message;
-  	      li.appendChild(newA);
-		  commentList.appendChild(li);
-	    });
-	  }
+	database.ref('users/' + userkey + '/post/').once('value', snapshot2 => {
+	  postDesc.text = snapshot2.val().description;
+	  postTime.text = snapshot2.val().timestamp;
+	});
+    //Load all previous comments and if anyone adds a new comments, create new element for newest comment
+    database.ref('users/' + userkey + '/postComments/').on('child_added', function(snapshot3, prevChild) {
+      //database.ref('users/' + userkey + '/postComments' + '/m' + (snapshot3.val() - 1) + '/').once('value', function(snapshot4) {
+	    const newA = document.createElement('a');
+	    const li = document.createElement('li');
+	    newA.innerText = snapshot3.val().user + ': ' + snapshot3.val().message;
+        li.appendChild(newA);
+	    commentList.appendChild(li);
+      //});
     });
-    database.ref('postSelect/').update({
-	  num: postNum
-	});
-	dynamicUpdate();
   }
-
-  var postSelect = sessionStorage.postSelect;
-  function dynamicUpdate() {
-  //If comments # of comments changes, create new element for newest comment
-  database.ref('postSelect/' + 'num').on('value', snapshot => {
-  
-  database.ref('postComment/' + snapshot.val() + '/nextM').on('value', snapshot1 => {
-  //alert("NumOfComments: " + sessionStorage.numOfComments);
-  if(snapshot1.val() - 1 != sessionStorage.numOfComments) {
-    //alert("Execute");
-    database.ref('postComment/' + snapshot.val() + '/m' + (snapshot1.val() - 1)).once('value', snapshot2 => {
-	  const newA = document.createElement('a');
-	  const li = document.createElement('li');
-	  newA.innerText = snapshot2.val().user + ': ' + snapshot2.val().message;
-      li.appendChild(newA);
-	  commentList.appendChild(li);
-	});
-  }
-  });
-  });
-  }
-
+    
   function addComment(msg) {
-    //Get the nextM value
-    database.ref('postComment/' + sessionStorage.postSelect + '/').once('value', snapshot1 => {
-	  //Create mX, where X = valueOf(nextM)
-	  database.ref('postComment/' + sessionStorage.postSelect + '/m' + snapshot1.val().nextM).set({
-	      user: "Anon",
+    console.log("Selected post key: " + sessionStorage.postSelect);
+
+	if(sessionStorage.postSelect != undefined) {
+    //Get the nextM value of selected post
+    database.ref('users/' + sessionStorage.postSelect + '/nextM' ).once('value', snapshot1 => {
+	  //Get username information from current logged in user
+	  database.ref('users/' + sessionStorage.user + '/').once('value', snapshot2 => {
+	    //Create mX, where X = valueOf(nextM)
+	    database.ref('users/' + sessionStorage.postSelect + '/postComments' + '/m' + snapshot1.val()).set({
+	      user: snapshot2.val().username,
 		  message: msg
+	    });
 	  });
+
 	  //Increment nextM
-	  database.ref('postComment/' + sessionStorage.postSelect + '/').update({
-	    nextM: snapshot1.val().nextM + 1
+	  database.ref('users/' + sessionStorage.postSelect + '/').update({
+	    nextM: snapshot1.val() + 1
 	  });
 	});
 	//Clear comment field
 	inText.value = "";
+	}
+	else {
+	  alert("Error: Select a post first to add a comment.");
+	}
   }
 
 
@@ -251,64 +253,97 @@ function toggle() {
       }
     }
 }
-
   function createPost() {
     var currentTime = moment().calendar();
-	if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
+	database.ref('users/' + sessionStorage.user +'/post/').once('value', function(snapshot1) {
+	  console.log(snapshot1);
+	  if(snapshot1.exists() != false) {
+	    var choice = confirm("Warning! Creating a new post will overwrite your existing post. Proceed?");
+		if(choice == true) {
+		  if (navigator.geolocation) {
+		    navigator.geolocation.getCurrentPosition(function(position) {
 
-      //Setup comments for this post
-	  database.ref('postComment/' + nextPostId).set({
-	    nextM: 1
-	  });
+            //Setup comments for this post
+	        database.ref('users/' + sessionStorage.user + '/').update({
+	          nextM: 1
+	        });
+			database.ref('users/' + sessionStorage.user + '/postComments').set({
+			});
 
-      database.ref('posts/' + 'id: ' + nextPostId).set({
-	    commentId: nextPostId,
-        username: "Anon",
-		image: name,
-		description: $("#found-description").val(),
-		latitude: position.coords.latitude,
-		longitude: position.coords.longitude,
-		timestamp: currentTime
-      });
-	  database.ref('nextId/').update({
-	    posts: nextPostId + 1
-	  });
-	  alert("Post Created!");
-	  window.location.href="/";
-	  }, function() {
-	    alert("Error: Post Not Created");
-		window.location.href="/";
-        handleLocationError(true, infoWindow, map.getCenter());
-      });
-      } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
-      }
+            database.ref('users/' + sessionStorage.user + '/post').set({
+		      image: name,
+		      description: $("#found-description").val(),
+		      latitude: position.coords.latitude,
+		      longitude: position.coords.longitude,
+		      timestamp: currentTime
+            });
+	        alert("Post Created!");
+	        window.location.href="/";
+	      }, function() {
+	        alert("Error: Post Not Created");
+		    window.location.href="/";
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+          } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+          }
+		}
+	  }
+	  else {
+	    if (navigator.geolocation) {
+		  navigator.geolocation.getCurrentPosition(function(position) {
+
+          //Setup comments for this post
+	      database.ref('users/' + sessionStorage.user + '/').update({
+	        nextM: 1
+	      });
+
+          database.ref('users/' + sessionStorage.user + '/post').set({
+		    image: name,
+		    description: $("#found-description").val(),
+		    latitude: position.coords.latitude,
+		    longitude: position.coords.longitude,
+		    timestamp: currentTime
+          });
+	      alert("Post Created!");
+	      window.location.href="/";
+	      }, function() {
+	        alert("Error: Post Not Created");
+		    window.location.href="/";
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+          } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+          } 
+	  }
+	});
   }
-      //Display all posts on the map on Page Load (static; will not change in real time)
-      dbRefPosts.once('value', snap => {
-        for(i = 1; i < nextPostId; i++) {
-		  database.ref('posts/' + 'id: ' + (i)).once('value', snaps => {
-		    if(snaps.val() != null) {
-		      var marker = new google.maps.Marker({
-		        position: new google.maps.LatLng(snaps.val().latitude, snaps.val().longitude),
-		  	    icon: 'icons/' + snaps.val().image + '.png',
-		        map: map
-	   	      });
-			  var infoWin = new google.maps.InfoWindow({
-			    content: '<div class="dHeader">' + snaps.val().username + '</div>' +
-				         '<div class="description">"' + snaps.val().description + '"</div>' +
-				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-2x"></i></button><div class="myDIV" style="display:none">  Occupation: Student <br> Hobbies: Soccer, Art</div>|<i class="fa fa-phone fa-2x"></i>|<a href="javascript:postComments(' + snaps.val().commentId + ')"><i class="fa fa-comments fa-2x"></i></a></center>' +
-					     '<a>'+ snaps.val().timestamp +'</a>'
+
+	//Display all posts on the map on Page Load (static; will not change in real time)
+	database.ref('users/').once('value', function(snap) {
+	  snap.forEach(function(childsnap1) {
+	    if(childsnap1.val().post != null) {
+		  database.ref('users/' + childsnap1.key + '/post').once('value', function(childsnap2) {
+		    var marker = new google.maps.Marker({
+		      position: new google.maps.LatLng(childsnap2.val().latitude, childsnap2.val().longitude),
+		   	  icon: 'icons/' + childsnap2.val().image + '.png',
+		      map: map
+		    });
+			var infoWin = new google.maps.InfoWindow({
+			    content: '<div class="dHeader">' + childsnap1.val().username + '</div>' +
+				         '<div class="description">"' + childsnap2.val().description + '"</div>' +
+				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-3x"></i></button><div class="myDIV" style="display:none">  Occupation: Student <br> Hobbies: Soccer, Art</div>|<i class="fa fa-phone fa-3x"></i>|<a href="javascript:postComments(\'' + childsnap1.key + '\')"><i class="fa fa-comments fa-3x"></i></a></center>' +
+					     '<a>'+ childsnap2.val().timestamp +'</a>'
 		      });
 		   	  marker.addListener('click', function() {
 		        infoWin.open(map, marker);
 			  });
-			}
 		  });
 		}
-      });
+	  });
+	});
 
   	function postEmoji() {
         var name, description;

@@ -16,11 +16,11 @@
 
   <form action="javascript:createAccount()">
     <div class="container">
+      <label><b>Username</b></label><br>
+      <input type="text" name="user" id="username" required>
+      <br><br>
       <label><b>Email</b></label><br>
       <input type="text" name="email" id="email" required>
-      <br><br>
-      <label><b>Username</b></label><br>
-      <input type="text" name="user" required>
       <br><br>
       <label><b>Password</b></label><br>
       <input type="password" name="pass" id="password" required>
@@ -31,7 +31,6 @@
   <br>
 
   <h5>Have an account? <a href="/login" style="color:blue;"> Login!</a></h5>
-
   
   <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
   <script>
@@ -45,6 +44,10 @@
       messagingSenderId: "1073760765111"
     };
     firebase.initializeApp(config);
+
+    // Get a reference to the database service
+    var database = firebase.database();
+	const dbRefUsers = database.ref().child("users");
 
   function createAccount() {
       const user = document.getElementById("email").value;
@@ -67,14 +70,27 @@
 
   firebase.auth().onAuthStateChanged(firebaseUser => {
       if (firebaseUser) {
+	      setDBinfo(firebaseUser.uid);
+		  sessionStorage.setItem("user", firebase.auth().currentUser.uid);
           alert("Account Created! Welcome to MapChat!!");
           window.location.href = "/";
           console.log(firebaseUser);
       }
+	  else if(sessionStorage.user) {
+	    window.location.href = "/";
+	  }
       else {
           console.log("not logged in");
       }
   });
+
+  	function setDBinfo(userid) {
+	  //Get next userID
+	  database.ref('users/' + userid).set({
+	    email: email.value,
+	    username: username.value
+	  });
+	}
   </script>
 </body>
 </html>

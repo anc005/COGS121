@@ -15,7 +15,7 @@
   <h1>MapChat</h1>
   <form action="javascript:loginAccount()">
     <div class="container">
-      <label><b>Username</b></label><br>
+      <label><b>Email</b></label><br>
       <input type="text" name="user" id="email" required>
       <br><br>
       <label><b>Password</b></label><br>
@@ -26,7 +26,6 @@
   </form>
   <br>
   <h5>Don't have an account? <a href="/signup" style="color:blue;"> Sign-Up!</a></h5>
-</body>
 
   <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
   <script>
@@ -59,17 +58,21 @@
           console.log(error);
       });
   }
+  console.log(sessionStorage.user);
 
   firebase.auth().onAuthStateChanged(firebaseUser => {
      if (firebaseUser) {
-        console.log(firebaseUser);
+	    sessionStorage.setItem("user", firebase.auth().currentUser.uid);
         window.location.href = "/";
+		console.log(firebaseUser);
     }
+	else if(sessionStorage.user) {
+	   window.location.href = "/";
+	}
     else {
         console.log("not logged in");
     }
   });
   </script>
-
-
+</body>
 </html>
