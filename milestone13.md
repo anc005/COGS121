@@ -12,7 +12,9 @@ Annie:
 *
 
 Jason:
-*
+* Added authentication for the application
+* Fixed Chat functionality
+* Added error checking for some user actions
 
 **Screenshot of rest of app's UI that is different from Milestone 11's screenshot or an improved version**
 ![Screenshot1]()

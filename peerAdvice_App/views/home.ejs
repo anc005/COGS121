@@ -105,6 +105,7 @@
     </tab-section>
 
 	<tab-section id="post-tab-section">
+ 	  <a href="javascript:goHome()" style="position:absolute; left:80%; top:10%"><i class="fa fa-window-close-o fa-3x"></i></a>
 	  <a id="username" style="position:absolute; left:5%; top:15%">Name: No Post Selected.</a>
 	  <a id="postDesc" style="position:absolute; left:5%; top:20%">Description: No Post Selected.</a>
 	  <a id="postTime" style="position:absolute; left:5%; top:25%">Time: No Post Selected.</a>
@@ -121,7 +122,7 @@
   </main>
   <footer class="btn-group" id="footer">
             <tab id="lost-tab" class="active">Map</tab>
-		    <tab id="post-tab">Chat</tab>
+		    <tab id="post-tab" style="display:none">Chat</tab>
             <tab id="found-tab">Create Post</tab>
             <tab id="profile-tab">Edit Profile</tab>
   </footer>
@@ -161,6 +162,12 @@
   //On page load, set postSelect to null
   sessionStorage.removeItem("postSelect");
 
+  function goHome() {
+    $('#lost-tab').click();
+	footer.style.visibility = "visible";
+  }
+  
+
   //Logout function
   function logout() {
     sessionStorage.removeItem("user");
@@ -170,6 +177,8 @@
   }
 
   function postComments(userkey) {
+    footer.style.visibility = "hidden";
+
 	console.log("Post Comments: " + userkey);
 	database.ref('users/' + sessionStorage.postSelect + '/postComments').off();
     //Clear data from post comments page
@@ -191,15 +200,15 @@
 	  postDesc.text = snapshot2.val().description;
 	  postTime.text = snapshot2.val().timestamp;
 	});
+
     //Load all previous comments and if anyone adds a new comments, create new element for newest comment
     database.ref('users/' + userkey + '/postComments/').on('child_added', function(snapshot3, prevChild) {
-      //database.ref('users/' + userkey + '/postComments' + '/m' + (snapshot3.val() - 1) + '/').once('value', function(snapshot4) {
 	    const newA = document.createElement('a');
 	    const li = document.createElement('li');
 	    newA.innerText = snapshot3.val().user + ': ' + snapshot3.val().message;
         li.appendChild(newA);
 	    commentList.appendChild(li);
-      //});
+	 //});
     });
   }
     
@@ -321,30 +330,6 @@ function toggle() {
 	});
   }
 
-	//Display all posts on the map on Page Load (static; will not change in real time)
-	database.ref('users/').once('value', function(snap) {
-	  snap.forEach(function(childsnap1) {
-	    if(childsnap1.val().post != null) {
-		  database.ref('users/' + childsnap1.key + '/post').once('value', function(childsnap2) {
-		    var marker = new google.maps.Marker({
-		      position: new google.maps.LatLng(childsnap2.val().latitude, childsnap2.val().longitude),
-		   	  icon: 'icons/' + childsnap2.val().image + '.png',
-		      map: map
-		    });
-			var infoWin = new google.maps.InfoWindow({
-			    content: '<div class="dHeader">' + childsnap1.val().username + '</div>' +
-				         '<div class="description">"' + childsnap2.val().description + '"</div>' +
-				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-3x"></i></button><div class="myDIV" style="display:none">  Occupation: Student <br> Hobbies: Soccer, Art</div>|<i class="fa fa-phone fa-3x"></i>|<a href="javascript:postComments(\'' + childsnap1.key + '\')"><i class="fa fa-comments fa-3x"></i></a></center>' +
-					     '<a>'+ childsnap2.val().timestamp +'</a>'
-		      });
-		   	  marker.addListener('click', function() {
-		        infoWin.open(map, marker);
-			  });
-		  });
-		}
-	  });
-	});
-
   	function postEmoji() {
         var name, description;
         if ((description = $("#found-description").val()) == "") {
@@ -362,9 +347,9 @@ function toggle() {
       map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 32.87699, lng: -117.2365},
 		zoom: 16
-    });
-	infoWindow = new google.maps.InfoWindow({content:'<p class="hook">I Am Here</p>'});
-    // Try HTML5 geolocation.
+      });
+	  infoWindow = new google.maps.InfoWindow({content:'<p class="hook">I Am Here</p>'});
+      // Try HTML5 geolocation.
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
@@ -376,24 +361,52 @@ function toggle() {
             var marker = new google.maps.Marker({
               position: pos,
               map: map,
+			  animation: google.maps.Animation.DROP,
 			  icon: {
 			    path: google.maps.SymbolPath.CIRCLE,
 				scale: 10
 			   }
             });
 
+			//Display all posts on the map on Page Load (static; will not change in real time)
+	        database.ref('users/').once('value', function(snap) {
+	          var infoWin = new google.maps.InfoWindow();
+	          snap.forEach(function(childsnap1) {
+	            if(childsnap1.val().post != null) {
+		          database.ref('users/' + childsnap1.key + '/post').once('value', function(childsnap2) {
+		            var marker = new google.maps.Marker({
+		              position: new google.maps.LatLng(childsnap2.val().latitude, childsnap2.val().longitude),
+		   	          icon: 'icons/' + childsnap2.val().image + '.png',
+		              map: map
+		            });
+			
+		   	        marker.addListener('click', function() {
+			          infoWin.setContent( '<div class="dHeader">' + childsnap1.val().username + '</div>' +
+				         '<div class="description">"' + childsnap2.val().description + '"</div>' +
+				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-3x"></i></button><div class="myDIV" style="display:none">  Occupation: Student <br> Hobbies: Soccer, Art</div>|<i class="fa fa-phone fa-3x"></i>|<a href="javascript:postComments(\'' + childsnap1.key + '\')" onclick="$(\'#post-tab\').click()"><i class="fa fa-comments fa-3x"></i></a></center>' +
+					     '<a>'+ childsnap2.val().timestamp +'</a>'
+				      );
+		              infoWin.open(map, marker);
+			        });
+		          });
+		        }
+	          });
+	        });
+
             infoWindow.setPosition(pos);
             infoWindow.open(map);
             map.setCenter(pos);
 
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
+			//var markerCluster = new MarkerClusterer(map, marker, {imagePath: 'markercluster'});
+
+        }, function() {
+          handleLocationError(true, infoWindow, map.getCenter());
           });
         } else {
           // Browser doesn't support Geolocation
           handleLocationError(false, infoWindow, map.getCenter());
         }
-      }
+    }
 
 	  function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	    infoWindow.setPosition(pos);
@@ -405,6 +418,7 @@ function toggle() {
      
   </script>
   <script src="js/index.js"></script>
+  <script src="markercluster/markercluster.js"></script>
   <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAW3DCA-XeamOExWb8IlYw0YZnre1UvZww&callback=initMap">
   </script>
