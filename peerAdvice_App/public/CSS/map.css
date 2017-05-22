@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
+.realComment{
+    margin-left: 10px;
+    width: calc(100% - 40px);
+    padding: 10px;
+    color:white;
+    background-color: salmon;
+    border-radius: 10px;
+/*    border: 2px solid red;
+*/
+}
 #commentList{
     background-color: white;
    
@@ -14,7 +23,6 @@
 }
 #inText{
         background-color: rgba(5,5,5,.1) !important;
-
     border-color:white;
     color:black;
 }
