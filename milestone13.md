@@ -9,7 +9,8 @@ Jake:
 * 
 
 Annie:
-*
+* With respect to updated functionality, adjusted UI for commenting feature.
+
 
 Jason:
 * Added authentication for the application
