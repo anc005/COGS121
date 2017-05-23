@@ -34,35 +34,29 @@
 
    <tab-section id="found-tab-section">
    	   <form id="found-form">
-<!--             <h2>Create Post</h2>
- -->            <label>Mood: </label>
+             <label>Mood: </label>
             <br>
               <label>
-                <input id="sad" type="radio" name="webmenu" onclick="getName(this.id)" value="med" />
-                <img src="icons/sad.png">
-              </label>
-
-              <label>
-                <input id="sinister" type="radio" name="webmenu" value="med" onclick="getName(this.id)"/>
-                <img src="icons/sinister.png">
-              </label>
-
-              <label>
-                <input id="funny" type="radio" name="webmenu" value="med" onclick="getName(this.id)"/>
+                <input id="funny" type="radio" name="webmenu" value="med" onclick="getName(this.id)" checked/>
                 <img src="icons/funny.png">
               </label>
-
               <label>
                 <input id="meh" type="radio" name="webmenu" value="med" onclick="getName(this.id)"/>
                 <img src="icons/meh.png">
               </label>
               <label>
+                <input id="sad" type="radio" name="webmenu" value="med" onclick="getName(this.id)"/>
+                <img src="icons/sad.png">
+              </label>
+              <label>
                 <input id="angry" type="radio" name="webmenu" value="med" onclick="getName(this.id)"/>
                 <img src="icons/angry.png">
               </label>
-<!--             <select name="webmenu" id="webmenu">
-			         <option id="emojoSelect" value="calendar" data-image="icons/sad.png">Sad</option>
-  			     </select> -->
+              <label>
+                <input id="sinister" type="radio" name="webmenu" value="med" onclick="getName(this.id)"/>
+                <img src="icons/sinister.png">
+              </label>
+
              <br><br>
             <label>Status: </label>
             <textarea id="found-description" placeholder="How are you feeling?"></textarea>
@@ -90,11 +84,7 @@
           <label><b>Hobbies</b></label><br>
           <input type="text" id="hobby" required>
           <br><br>
-<!--           <label><b>Gender</b></label><br>
- -->         <!--  <input type="radio" id="gender" value="male"> Male<br>
-          <input type="radio" id="gender" value="female"> Female<br>
-          <input type="radio" id="gender" value="other"> Prefer not to say -->
-      <!--     <br><br> -->
+
 
         </div>
         <button type="submit">Save Changes</button>
@@ -152,7 +142,6 @@
   const dbRefPosts = database.ref().child("posts");
   var nextPostId;
   var dbRefCount = database.ref('nextId' + '/posts');
-  //database.ref().child("posts").remove(); //cleared the posts to better test
   dbRefCount.on('value', snapshot => {
     nextPostId = snapshot.val();
   });
@@ -173,12 +162,11 @@
     $('#lost-tab').click();
 	footer.style.visibility = "visible";
   }
-  
 
   //Logout function
   function logout() {
     sessionStorage.removeItem("user");
-	sessionStorage.removeItem("postSelect");
+	  sessionStorage.removeItem("postSelect");
     firebase.auth().signOut();
     window.location.href = "/login";
   }
@@ -204,8 +192,16 @@
 	  username.text = snapshot1.val().username;
 	});
 	database.ref('users/' + userkey + '/post/').once('value', snapshot2 => {
-	  postDesc.text = snapshot2.val().description;
+	  postDesc.text = "\"" + snapshot2.val().description + "\"";
 	  postTime.text = snapshot2.val().timestamp;
+
+	  //Create comments header
+	  const aElem = document.createElement('a');
+	  const liElem = document.createElement('li');
+	  aElem.innerText = "- Chat began " + snapshot2.val().timestamp + " -";
+	  aElem.style.color = "black";
+	  liElem.appendChild(aElem);
+	  commentList.appendChild(liElem);
 	});
 
     //Load all previous comments and if anyone adds a new comments, create new element for newest comment
@@ -215,7 +211,6 @@
 	    newA.innerText = snapshot3.val().user + ': ' + snapshot3.val().message;
         li.appendChild(newA);
 	    commentList.appendChild(li);
-	 //});
     });
   }
     
@@ -247,30 +242,27 @@
 	}
   }
 
+  var name = 'funny';
 
-	var name = 'xx';
+  function getName(emojiPic) {
+    name = emojiPic;
+  }
 
-	function getName(emojiPic) {
-		name = emojiPic;
-	}
-
-function toggle() {
+  function toggle() {
     var x = document.getElementsByClassName("myDIV");
 
-
     for(var i = 0; i<x.length; i++){
-
       if (x[i].style.display === 'none') {
-
           x[i].style.display = 'block';
       } 
       else {
           x[i].style.display = 'none';
       }
     }
-}
+  }
+
   function createPost() {
-    var currentTime = moment().calendar();
+    var currentTime = moment().format('MMMM Do [at] h:mm a');
 	database.ref('users/' + sessionStorage.user +'/post/').once('value', function(snapshot1) {
 	  console.log(snapshot1);
 	  if(snapshot1.exists() != false) {
@@ -377,7 +369,11 @@ function toggle() {
 
 			//Display all posts on the map on Page Load (static; will not change in real time)
 	        database.ref('users/').once('value', function(snap) {
+
 	          var infoWin = new google.maps.InfoWindow();
+			  //Create markerclusterer object with an empty array of markers
+			  var markerCluster = new MarkerClusterer(map, [], {imagePath: 'markercluster/m'});
+
 	          snap.forEach(function(childsnap1) {
 	            if(childsnap1.val().post != null) {
 		          database.ref('users/' + childsnap1.key + '/post').once('value', function(childsnap2) {
@@ -390,11 +386,14 @@ function toggle() {
 		   	        marker.addListener('click', function() {
 			          infoWin.setContent( '<div class="dHeader">' + childsnap1.val().username + '</div>' +
 				         '<div class="description">"' + childsnap2.val().description + '"</div>' +
-				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-3x"></i></button><div class="myDIV" style="display:none">  Occupation: Student <br> Hobbies: Soccer, Art</div>|<i class="fa fa-phone fa-3x"></i>|<a href="javascript:postComments(\'' + childsnap1.key + '\')" onclick="$(\'#post-tab\').click()"><i class="fa fa-comments fa-3x"></i></a></center>' +
+				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-3x"></i></button><div class="myDIV" style="display:none">  Occupation: Student <br> Hobbies: Soccer, Art</div>|<a href="javascript:postComments(\'' + childsnap1.key + '\')" onclick="$(\'#post-tab\').click()"><i class="fa fa-comments fa-3x"></i></a></center>' +
 					     '<a>'+ childsnap2.val().timestamp +'</a>'
 				      );
 		              infoWin.open(map, marker);
 			        });
+
+					//Add marker into markerCluster array
+					markerCluster.addMarker(marker);
 		          });
 		        }
 	          });
@@ -403,8 +402,6 @@ function toggle() {
             infoWindow.setPosition(pos);
             infoWindow.open(map);
             map.setCenter(pos);
-
-			//var markerCluster = new MarkerClusterer(map, marker, {imagePath: 'markercluster'});
 
         }, function() {
           handleLocationError(true, infoWindow, map.getCenter());
