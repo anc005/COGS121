@@ -34,8 +34,7 @@
 
    <tab-section id="found-tab-section">
    	   <form id="found-form">
-<!--             <h2>Create Post</h2>
- -->            <label>Mood: </label>
+             <label>Mood: </label>
             <br>
               <label>
                 <input id="sad" type="radio" name="webmenu" onclick="getName(this.id)" value="med" />
@@ -60,9 +59,7 @@
                 <input id="angry" type="radio" name="webmenu" value="med" onclick="getName(this.id)"/>
                 <img src="icons/angry.png">
               </label>
-<!--             <select name="webmenu" id="webmenu">
-			         <option id="emojoSelect" value="calendar" data-image="icons/sad.png">Sad</option>
-  			     </select> -->
+
              <br><br>
             <label>Status: </label>
             <textarea id="found-description" placeholder="How are you feeling?"></textarea>
@@ -90,11 +87,7 @@
           <label><b>Hobbies</b></label><br>
           <input type="text" id="hobby" required>
           <br><br>
-<!--           <label><b>Gender</b></label><br>
- -->         <!--  <input type="radio" id="gender" value="male"> Male<br>
-          <input type="radio" id="gender" value="female"> Female<br>
-          <input type="radio" id="gender" value="other"> Prefer not to say -->
-      <!--     <br><br> -->
+
 
         </div>
         <button type="submit">Save Changes</button>
@@ -152,7 +145,6 @@
   const dbRefPosts = database.ref().child("posts");
   var nextPostId;
   var dbRefCount = database.ref('nextId' + '/posts');
-  //database.ref().child("posts").remove(); //cleared the posts to better test
   dbRefCount.on('value', snapshot => {
     nextPostId = snapshot.val();
   });
@@ -178,7 +170,7 @@
   //Logout function
   function logout() {
     sessionStorage.removeItem("user");
-	sessionStorage.removeItem("postSelect");
+	  sessionStorage.removeItem("postSelect");
     firebase.auth().signOut();
     window.location.href = "/login";
   }
