@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 .realComment{
-    margin-left: 10px;
-    width: calc(100% - 40px);
+    margin-left: 25%;
+    width: calc(50% - 20px);
     padding: 10px;
     color:white;
     background-color: salmon;
@@ -14,13 +14,26 @@
    
     border-radius: 10px;
 }
- #commentBox{
+li > a{
+    color:black;
+}
+#commentBox{
     background-color: transparent !important;
     position: absolute;
     top:80%;
-    left:29%;
+    left:28%;
 
 }
+#close{
+    position: fixed;
+    color:white;
+    width:100%;
+    background-color: salmon;
+}
+#close:hover{
+    color:black;
+}
+
 #inText{
         background-color: rgba(5,5,5,.1) !important;
     border-color:white;
@@ -42,8 +55,9 @@
 }
 
 #commentSubmission:hover{
-    background-color: white;
-    color:salmon;
+ /*   background-color: white;*/
+    color:black;
+    cursor: pointer;
 }
 
 

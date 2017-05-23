@@ -105,21 +105,25 @@
     </tab-section>
 
 	<tab-section id="post-tab-section">
- 	  <a href="javascript:goHome()" style="position:absolute; left:80%; top:10%"><i class="fa fa-window-close-o fa-3x"></i></a>
+ 	 <!--  <a href="javascript:goHome()" style="position:absolute; left:80%; top:10%"><i class="fa fa-window-close-o fa-3x"></i></a> -->
 	  <div class="realComment">
-    
-      <a id="username">Name: No Post Selected.</a><br>
+
+      <a id="username">Name: No Post Selected.</a>:<br>
   	  <a id="postDesc">Description: No Post Selected.</a><br>
-  	  <a id="postTime">Time: No Post Selected.</a><br>
+  	  <i><a id="postTime">Time: No Post Selected.</a></i><br>
     </div>
-      <ul id="commentList" style="position:fixed; height:70%; width:50%; left:25%; overflow: auto">
+      <ul id="commentList" style="position:fixed; height:60%; width:50%; left:25%; overflow: auto">
 	    <li><a>Welcome to MapChat!</a></li>
 		<li><a>Please select a post from the Map!</a></li>
 	  </ul>
+    <br>
 	  <form id="commentBox" action="javascript:addComment(inText.value)" >
         <input type="text" id="inText" required>
         <input type="submit" value="Comment" id="commentSubmission">
-      </form>
+    </form>
+    <footer class="btn-group" >
+            <a href="javascript:goHome()"><tab id="close">Close</tab></a>
+    </footer>
 	</tab-section>
 
   </main>
