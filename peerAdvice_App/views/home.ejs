@@ -270,7 +270,7 @@ function toggle() {
     }
 }
   function createPost() {
-    var currentTime = moment().calendar();
+    var currentTime = moment().format('MMMM Do [at] h:mm a');
 	database.ref('users/' + sessionStorage.user +'/post/').once('value', function(snapshot1) {
 	  console.log(snapshot1);
 	  if(snapshot1.exists() != false) {
