@@ -10,6 +10,7 @@ Jake:
 
 Annie:
 * With respect to updated functionality, adjusted UI for commenting feature.
+* Updated UI for popup boxes (appears when you click the user emojis on the map) to have uniform skin as the rest of the application.
 
 
 Jason:
@@ -18,5 +19,5 @@ Jason:
 * Added error checking for some user actions
 
 **Screenshot of rest of app's UI that is different from Milestone 11's screenshot or an improved version**
-![Screenshot1]()
-
+![Screenshot1](/milestone13screenshot1.png)
+![Screenshot2](/milestone13screenshot2.png)
