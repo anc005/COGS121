@@ -66,7 +66,7 @@
 
 
    <tab-section id="profile-tab-section">
-      <form id="found-form" onsubmit="addJSON();" action="/">
+      <form id="found-form" name="profileSub" onsubmit="addJSON(event);">
 
         <div class="profileContainer">
           <label><b>First Name</b></label><br>
@@ -74,9 +74,6 @@
           <br><br>
           <label><b>Last Name</b></label><br>
           <input type="text" id="lname" required>
-          <br><br>
-          <label><b>Email</b></label><br>
-          <input type="text" id="email" required>
           <br><br>
           <label><b>Occupation</b></label><br>
           <input type="text" id="occupation" required>
@@ -158,6 +155,36 @@
   //On page load, set postSelect to null
   sessionStorage.removeItem("postSelect");
 
+  var myObj, myJSON, text, obj;
+  if (obj == null) {
+    myObj = {
+      "first":"",
+      "last":"",
+      "occupation":"",
+      "hobby":""
+    };
+    myJSON = JSON.stringify(myObj);
+    localStorage.setItem("profile", myJSON);
+
+    text = localStorage.getItem("profile");
+    obj = JSON.parse(text);
+  }
+  function addJSON(event) {
+    event.preventDefault();
+
+    myObj = {
+      "first":document.getElementById("fname").value,
+      "last":document.getElementById("lname").value,
+      "occupation":document.getElementById("occupation").value,
+      "hobby":document.getElementById("hobby").value
+    };
+    myJSON = JSON.stringify(myObj);
+    localStorage.setItem("profile", myJSON);
+
+    text = localStorage.getItem("profile");
+    obj = JSON.parse(text);
+    alert("Information saved!");
+  }
   function goHome() {
     $('#lost-tab').click();
 	footer.style.visibility = "visible";
@@ -386,7 +413,7 @@
 		   	        marker.addListener('click', function() {
 			          infoWin.setContent( '<div class="dHeader">' + childsnap1.val().username + '</div>' +
 				         '<div class="description">"' + childsnap2.val().description + '"</div>' +
-				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-3x"></i></button><div class="myDIV" style="display:none">  Occupation: Student <br> Hobbies: Soccer, Art</div>|<a href="javascript:postComments(\'' + childsnap1.key + '\')" onclick="$(\'#post-tab\').click()"><i class="fa fa-comments fa-3x"></i></a></center>' +
+				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-3x"></i></button><div class="myDIV" style="display:none">  Occupation: ' + obj.occupation + ' <br> Hobbies: ' + obj.hobby + '</div>|<a href="javascript:postComments(\'' + childsnap1.key + '\')" onclick="$(\'#post-tab\').click()"><i class="fa fa-comments fa-3x"></i></a></center>' +
 					     '<a>'+ childsnap2.val().timestamp +'</a>'
 				      );
 		              infoWin.open(map, marker);

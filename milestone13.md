@@ -3,8 +3,8 @@
 **Description of what each team member has done on the project since milestone 11**
 
 Jacob:
-* 
-
+* Fixed a small bug with timestamps.
+* Stored profile info and set occupation/hobbies in info window.
 Jake:
 * 
 
