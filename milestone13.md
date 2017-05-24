@@ -5,8 +5,6 @@
 Jacob:
 * Fixed a small bug with timestamps.
 * Stored profile info and set occupation/hobbies in info window.
-Jake:
-* 
 
 Annie:
 * With respect to updated functionality, adjusted UI for commenting feature.
@@ -17,6 +15,10 @@ Jason:
 * Added authentication for the application
 * Fixed Chat functionality
 * Added error checking for some user actions
+
+Jake:
+* Add markercluster to the map so it looks better when zooming out with 
+* Fixed bugs
 
 **Screenshot of rest of app's UI that is different from Milestone 11's screenshot or an improved version**
 ![Screenshot1](/milestone13screenshot1.png)
