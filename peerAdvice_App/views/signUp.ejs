@@ -88,7 +88,8 @@
 	  //Get next userID
 	  database.ref('users/' + userid).set({
 	    email: email.value,
-	    username: username.value
+	    username: username.value,
+		about: ""
 	  });
 	}
   </script>

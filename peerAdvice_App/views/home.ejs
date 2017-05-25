@@ -23,7 +23,7 @@
 	<a href="javascript:logout()" class="logout"><i class="fa fa-power-off" aria-hidden="true"></i></a>
   </ul>
 
-   <main>
+ <main>
 
    <tab-section id="lost-tab-section" class="active">
    		<div id="map-outer">
@@ -64,10 +64,8 @@
        </form>
    </tab-section>
 
-
    <tab-section id="profile-tab-section">
       <form id="found-form" name="profileSub" onsubmit="addJSON(event);">
-
         <div class="profileContainer">
           <label><b>First Name</b></label><br>
           <input type="text" id="fname" required>
@@ -81,44 +79,45 @@
           <label><b>Hobbies</b></label><br>
           <input type="text" id="hobby" required>
           <br><br>
-
-
         </div>
         <button type="submit">Save Changes</button>
-
       </form>
-      <br><br><br><br>
-
+	  <form action="javascript:updateProfile()">
+        <div class="profileContainer">
+          <label><b>About Me:</b></label><br>
+          <input type="text" id="userN" required>
+          <br><br>
+        </div>
+        <button type="submit">Save Changes</button>
+      </form>
     </tab-section>
 
 	<tab-section id="post-tab-section">
- 	 <!--  <a href="javascript:goHome()" style="position:absolute; left:80%; top:10%"><i class="fa fa-window-close-o fa-3x"></i></a> -->
 	  <div class="realComment">
-
-      <a id="username">Name: No Post Selected.</a>:<br>
-  	  <a id="postDesc">Description: No Post Selected.</a><br>
-  	  <i><a id="postTime">Time: No Post Selected.</a></i><br>
-    </div>
+        <a id="username">Name: No Post Selected.</a>:<br>
+  	    <a id="postDesc">Description: No Post Selected.</a><br>
+  	    <i><a id="postTime">Time: No Post Selected.</a></i><br>
+      </div>
       <ul id="commentList" style="position:fixed; height:60%; width:50%; left:25%; overflow: auto">
 	    <li><a>Welcome to MapChat!</a></li>
 		<li><a>Please select a post from the Map!</a></li>
 	  </ul>
-    <br>
+      <br>
 	  <form id="commentBox" action="javascript:addComment(inText.value)" >
         <input type="text" id="inText" required>
         <input type="submit" value="Comment" id="commentSubmission">
-    </form>
-    <footer class="btn-group" >
-            <a href="javascript:goHome()"><tab id="close">Close</tab></a>
-    </footer>
-	</tab-section>
+      </form>
+      <footer class="btn-group" >
+        <a href="javascript:goHome()"><tab id="close">Close</tab></a>
+      </footer>
+	  </tab-section>
 
   </main>
   <footer class="btn-group" id="footer">
             <tab id="lost-tab" class="active">Map</tab>
 		    <tab id="post-tab" style="display:none">Chat</tab>
             <tab id="found-tab">Create Post</tab>
-            <tab id="profile-tab">Edit Profile</tab>
+            <tab id="profile-tab" onclick="javascript:populateProfile()">Edit Profile</tab>
   </footer>
 
 <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
@@ -137,11 +136,6 @@
   // Get a reference to the database service
   var database = firebase.database();
   const dbRefPosts = database.ref().child("posts");
-  var nextPostId;
-  var dbRefCount = database.ref('nextId' + '/posts');
-  dbRefCount.on('value', snapshot => {
-    nextPostId = snapshot.val();
-  });
 
   //On page load, check if a user is logged in
   if (sessionStorage.user) {
@@ -152,7 +146,7 @@
     window.location.href="/login";
   }
 
-  //On page load, set postSelect to null
+  //On page load/refresh, set postSelect to null
   sessionStorage.removeItem("postSelect");
 
   var myObj, myJSON, text, obj;
@@ -185,6 +179,8 @@
     obj = JSON.parse(text);
     alert("Information saved!");
   }
+
+  //Function to go to the Map Tab from the Post's Comments Tab
   function goHome() {
     $('#lost-tab').click();
 	footer.style.visibility = "visible";
@@ -193,7 +189,7 @@
   //Logout function
   function logout() {
     sessionStorage.removeItem("user");
-	  sessionStorage.removeItem("postSelect");
+	sessionStorage.removeItem("postSelect");
     firebase.auth().signOut();
     window.location.href = "/login";
   }
@@ -235,7 +231,7 @@
     database.ref('users/' + userkey + '/postComments/').on('child_added', function(snapshot3, prevChild) {
 	    const newA = document.createElement('a');
 	    const li = document.createElement('li');
-	    newA.innerText = snapshot3.val().user + ': ' + snapshot3.val().message;
+	    newA.innerText = '[' + snapshot3.val().timestamp + '] ' + snapshot3.val().user + ': ' + snapshot3.val().message;
         li.appendChild(newA);
 	    commentList.appendChild(li);
     });
@@ -252,7 +248,8 @@
 	    //Create mX, where X = valueOf(nextM)
 	    database.ref('users/' + sessionStorage.postSelect + '/postComments' + '/m' + snapshot1.val()).set({
 	      user: snapshot2.val().username,
-		  message: msg
+		  message: msg,
+		  timestamp: moment().format('h:mm A')
 	    });
 	  });
 
@@ -366,6 +363,19 @@
         }
     }
 
+	function populateProfile() {
+	  database.ref('users/' + sessionStorage.user + '/').once('value', function(snapshot1) {
+	    userN.value = snapshot1.val().about;
+	  });
+	}
+	function updateProfile() {
+	  database.ref('users/' + sessionStorage.user + '/').update ({
+	    about: userN.value
+	  });
+	  alert("Updated.");
+	  window.location.href = "/";
+	}
+
 	var map, infoWindow;
     function initMap() {
 	  $("#map-loading").fadeOut();
@@ -413,7 +423,9 @@
 		   	        marker.addListener('click', function() {
 			          infoWin.setContent( '<div class="dHeader">' + childsnap1.val().username + '</div>' +
 				         '<div class="description">"' + childsnap2.val().description + '"</div>' +
-				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-3x"></i></button><div class="myDIV" style="display:none">  Occupation: ' + obj.occupation + ' <br> Hobbies: ' + obj.hobby + '</div>|<a class="comButton" href="javascript:postComments(\'' + childsnap1.key + '\')" onclick="$(\'#post-tab\').click()"><i class="fa fa-comments fa-3x"></i></a></center>' +
+						 '<br>About Me: ' +
+						 childsnap1.val().about +
+				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-3x"></i></button><div class="myDIV" style="display:none">  Occupation: ' + obj.occupation + ' <br> Hobbies: ' + obj.hobby + '</div><a class="comButton" href="javascript:postComments(\'' + childsnap1.key + '\')" onclick="$(\'#post-tab\').click()"><i class="fa fa-comments fa-3x"></i></a></center>' +
 					     '<a>'+ childsnap2.val().timestamp +'</a>'
 				      );
 		              infoWin.open(map, marker);
