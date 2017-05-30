@@ -60,12 +60,15 @@
              <br><br>
             <label>Status: </label>
             <textarea id="found-description" placeholder="How are you feeling?"></textarea>
+			<h3>*Posts lasts for a maximum of 24 hours.</h3>
+			<h3>*Users have a maximum of 1 post at a time.</h3>
             <button class="addValue" type="submit">POST</button>
        </form>
    </tab-section>
 
    <tab-section id="profile-tab-section">
-      <form id="found-form" name="profileSub" onsubmit="addJSON(event);">
+   <!--
+      <form name="profileSub" onsubmit="addJSON(event);">
         <div class="profileContainer">
           <label><b>First Name</b></label><br>
           <input type="text" id="fname" required>
@@ -73,22 +76,23 @@
           <label><b>Last Name</b></label><br>
           <input type="text" id="lname" required>
           <br><br>
-          <label><b>Occupation</b></label><br>
-          <input type="text" id="occupation" required>
+        </div>
+        <button type="submit">Save Changes</button>
+      </form>
+	-->
+	  <form id="found-form" action="javascript:updateProfile()">
+        <div class="profileContainer">
+          <label><b>Username:</b></label><br>
+          <input type="text" id="uname" required>
           <br><br>
-          <label><b>Hobbies</b></label><br>
-          <input type="text" id="hobby" required>
+          <label><b>About Me (optional):</b></label><br>
+          <textarea id="uabout"></textarea>
           <br><br>
         </div>
         <button type="submit">Save Changes</button>
       </form>
-	  <form action="javascript:updateProfile()">
-        <div class="profileContainer">
-          <label><b>About Me:</b></label><br>
-          <input type="text" id="userN" required>
-          <br><br>
-        </div>
-        <button type="submit">Save Changes</button>
+	  <form id="found-form" action="javascript:deleteAccount()">
+        <button type="submit">Delete Account</button>
       </form>
     </tab-section>
 
@@ -117,7 +121,7 @@
             <tab id="lost-tab" class="active">Map</tab>
 		    <tab id="post-tab" style="display:none">Chat</tab>
             <tab id="found-tab">Create Post</tab>
-            <tab id="profile-tab" onclick="javascript:populateProfile()">Edit Profile</tab>
+            <tab id="profile-tab" onclick="javascript:populateProfile()">Account Settings</tab>
   </footer>
 
 <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
@@ -168,9 +172,7 @@
 
     myObj = {
       "first":document.getElementById("fname").value,
-      "last":document.getElementById("lname").value,
-      "occupation":document.getElementById("occupation").value,
-      "hobby":document.getElementById("hobby").value
+      "last":document.getElementById("lname").value
     };
     myJSON = JSON.stringify(myObj);
     localStorage.setItem("profile", myJSON);
@@ -194,6 +196,21 @@
     window.location.href = "/login";
   }
 
+  function deleteAccount() {
+    var choice1 = confirm("Are you sure you want to delete your account? This process is irreversible.");
+	if (choice1 == true) {
+	  var choice2 = confirm("Click 'OK' to continue with account deletion.");
+	  if(choice2 == true) {
+	    alert("Sorry, Account Deletion Feature is Coming Soon.");
+		//sessionStorage.removeItem("user");
+		//sessionStorage.removeItem("postSelect");
+		//console.log(firebase.auth.currentUser == null);
+	    //firebase.auth().currentUser.delete();
+		//window.location.href = '/login';
+	  }
+	} 
+  }
+
   function postComments(userkey) {
     footer.style.visibility = "hidden";
 
@@ -215,13 +232,30 @@
 	  username.text = snapshot1.val().username;
 	});
 	database.ref('users/' + userkey + '/post/').once('value', snapshot2 => {
+	  var minuteFormat;
+	  var amORpm;
+	  if(snapshot2.val().minute < 10) {
+	    minuteFormat = '0' + snapshot2.val().minute;
+	  }
+	  else {
+	    minuteFormat = snapshot2.val().minute;
+	  }
+	  if(snapshot2.val().hour > 12) {
+	    amORpm = 'pm';
+	  }
+	  else {
+	    amORpm = am;
+	  }
+	  var timestamp = snapshot2.val().month + '/' + snapshot2.val().date + '/' + snapshot2.val().year + ' ' + (snapshot2.val().hour % 12)
+	                  + ':' + minuteFormat + ' ' + amORpm;
+
 	  postDesc.text = "\"" + snapshot2.val().description + "\"";
-	  postTime.text = snapshot2.val().timestamp;
+	  postTime.text = timestamp;
 
 	  //Create comments header
 	  const aElem = document.createElement('a');
 	  const liElem = document.createElement('li');
-	  aElem.innerText = "- Chat began " + snapshot2.val().timestamp + " -";
+	  aElem.innerText = "- Chat began " + timestamp + " -";
 	  aElem.style.color = "black";
 	  liElem.appendChild(aElem);
 	  commentList.appendChild(liElem);
@@ -233,6 +267,7 @@
 	    const li = document.createElement('li');
 	    newA.innerText = '[' + snapshot3.val().timestamp + '] ' + snapshot3.val().user + ': ' + snapshot3.val().message;
         li.appendChild(newA);
+		li.style.wordWrap = "break-word";
 	    commentList.appendChild(li);
     });
   }
@@ -273,7 +308,7 @@
   }
 
   function toggle() {
-    var x = document.getElementsByClassName("myDIV");
+/*    var x = document.getElementsByClassName("myDIV");
 
     for(var i = 0; i<x.length; i++){
       if (x[i].style.display === 'none') {
@@ -282,7 +317,7 @@
       else {
           x[i].style.display = 'none';
       }
-    }
+    } */
   }
 
   function createPost() {
@@ -307,7 +342,11 @@
 		      description: $("#found-description").val(),
 		      latitude: position.coords.latitude,
 		      longitude: position.coords.longitude,
-		      timestamp: currentTime
+			  month: (moment().month() + 1),
+			  date: moment().date(),
+			  year: moment().year(),
+			  hour: moment().hours(),
+			  minute: moment().minute() 
             });
 	        alert("Post Created!");
 	        window.location.href="/";
@@ -336,7 +375,11 @@
 		    description: $("#found-description").val(),
 		    latitude: position.coords.latitude,
 		    longitude: position.coords.longitude,
-		    timestamp: currentTime
+			month: (moment().month() + 1),
+			date: moment().date(),
+			year: moment().year(),
+			hour: moment().hours(),
+	        minute: moment().minute() 
           });
 	      alert("Post Created!");
 	      window.location.href="/";
@@ -365,12 +408,14 @@
 
 	function populateProfile() {
 	  database.ref('users/' + sessionStorage.user + '/').once('value', function(snapshot1) {
-	    userN.value = snapshot1.val().about;
+	    uname.value = snapshot1.val().username;
+		uabout.value = snapshot1.val().about;
 	  });
 	}
 	function updateProfile() {
 	  database.ref('users/' + sessionStorage.user + '/').update ({
-	    about: userN.value
+	    username: uname.value,
+	    about: uabout.value
 	  });
 	  alert("Updated.");
 	  window.location.href = "/";
@@ -414,25 +459,66 @@
 	          snap.forEach(function(childsnap1) {
 	            if(childsnap1.val().post != null) {
 		          database.ref('users/' + childsnap1.key + '/post').once('value', function(childsnap2) {
+								    
+					var beforeTime = moment();
+					beforeTime.set('month', moment().month());
+					beforeTime.set('date', moment().date());
+					beforeTime.set('year', moment().year());
+					beforeTime.set('hour', moment().hour());
+					beforeTime.set('minute', moment().minute());
+					beforeTime.subtract(1, 'days');
+
+					var postTime = moment();
+					postTime.set('month', (childsnap2.val().month - 1));
+					postTime.set('date', childsnap2.val().date);
+					postTime.set('year', childsnap2.val().year);
+					postTime.set('hour', childsnap2.val().hour);
+					postTime.set('minute', childsnap2.val().minute);
+
+					//Check post to see if it has passed the elapsed time
+					if(postTime.isAfter(beforeTime) == false) {
+					  database.ref('users/' + childsnap1.key + '/post/').remove();
+					  database.ref('users/' + childsnap1.key + '/postComments/').remove();
+					  database.ref('users/' + childsnap1.key + '/nextM/') .remove();
+					}
+					else {
+
 		            var marker = new google.maps.Marker({
 		              position: new google.maps.LatLng(childsnap2.val().latitude, childsnap2.val().longitude),
 		   	          icon: 'icons/' + childsnap2.val().image + '.png',
 		              map: map
 		            });
+
+					var ampm;
+					var minFormat;
+					if(childsnap2.val().hour > 12) {
+					  ampm = 'pm';
+					}
+					else {
+					  ampm = 'am';
+					}
+					if(childsnap2.val().minute < 10) {
+					  minFormat = '0' + childsnap2.val().minute;
+					}
+					else {
+					  minFormat = childsnap2.val().minute;
+					}
 			
 		   	        marker.addListener('click', function() {
 			          infoWin.setContent( '<div class="dHeader">' + childsnap1.val().username + '</div>' +
 				         '<div class="description">"' + childsnap2.val().description + '"</div>' +
 						 '<br>About Me: ' +
 						 childsnap1.val().about +
-				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-3x"></i></button><div class="myDIV" style="display:none">  Occupation: ' + obj.occupation + ' <br> Hobbies: ' + obj.hobby + '</div><a class="comButton" href="javascript:postComments(\'' + childsnap1.key + '\')" onclick="$(\'#post-tab\').click()"><i class="fa fa-comments fa-3x"></i></a></center>' +
-					     '<a>'+ childsnap2.val().timestamp +'</a>'
+				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-3x"></i></button><div class="myDIV" style="display:none"></div><a class="comButton" href="javascript:postComments(\'' + childsnap1.key + '\')" onclick="$(\'#post-tab\').click()"><i class="fa fa-comments fa-3x"></i></a></center>' +
+					     '<a>'+ childsnap2.val().month + '/' + childsnap2.val().date + '/' + childsnap2.val().year + ' ' + 
+                         (childsnap2.val().hour % 12) + ':' + minFormat + ' ' + ampm + '</a>'
 				      );
 		              infoWin.open(map, marker);
 			        });
 
 					//Add marker into markerCluster array
 					markerCluster.addMarker(marker);
+					}
 		          });
 		        }
 	          });
