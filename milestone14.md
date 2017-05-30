@@ -1,9 +1,9 @@
-## Milestone 13: Finish Implementation
+## Milestone 14: Finish Implementation
 
 **Description of what each team member has done on the project since milestone 13**
 
 Jacob:
-*
+* Created new marker cluster icons. 
 
 Jake:
 * 
