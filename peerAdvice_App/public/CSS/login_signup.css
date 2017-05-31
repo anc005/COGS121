@@ -29,7 +29,7 @@ input:focus{
 }
 
 button[type=submit] {
-    background-color: salmon;
+    background-color: tomato;
     color: white;
     padding: 14px;
    /* margin: 8px 0;*/
@@ -60,5 +60,5 @@ img.Icon {
 }
 h1, h5, label{
     text-align: center;
-    color: salmon;
+    color: tomato;
 }
