@@ -264,6 +264,33 @@ textarea#found-description, textarea#uabout{
     height:100%;
 }
 
+#found-form2{
+    margin-top:3%;
+    width:80%;
+    margin-left: calc(10% - 30px);
+
+    background-color: white;
+    border-radius:20px;
+    padding:30px;
+    height:100%;
+}
+
+#found-form2 button {
+    margin-top: 15px;
+    padding: 0;
+    height: 50px;
+/*    line-height: 40px;
+*/    width: 90%;
+    border-radius: 8px;
+    border: none;
+    text-align: center;
+    background-color: tomato;
+    color: rgba(255, 255, 255, 1);
+    width:50%;
+    margin-left: 25%;
+    font-size: 20px;
+}
+
 #uabout{
     margin-top: 0 !important;
     width:70%;

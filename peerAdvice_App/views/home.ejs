@@ -67,6 +67,7 @@
 			<h3>*Each new post lasts 24 hours.</h3>
 			<h3>*Limit of 1 immediate post per user.</h3>
             <button class="addValue" type="submit">POST</button>
+			<h3 style="text-align:center">Please wait a few seconds after clicking the 'POST' button.</h3>
        </form>
    </tab-section>
 
@@ -94,11 +95,10 @@
           <br><br>
         </div>
         <button type="submit">Save Changes</button>
-        <button onclick="deleteAccount()" type="submit">Delete Account</button>
       </form>
-	<!--    <form id="found-form2" action="javascript:deleteAccount()"> -->
-        
- <!--      </form> -->
+	    <form id="found-form2" action="javascript:deleteAccount()">
+          <button type="submit">Delete Account</button>
+       </form>
     </tab-section>
 
 	<tab-section id="post-tab-section">
@@ -158,7 +158,7 @@
   //On page load/refresh, set postSelect to null
   sessionStorage.removeItem("postSelect");
 
-  var myObj, myJSON, text, obj;
+ /* var myObj, myJSON, text, obj;
   if (obj == null) {
     myObj = {
       "first":"",
@@ -186,7 +186,7 @@
     obj = JSON.parse(text);
 
     alert("Information saved!");
-  }
+  } */
 
   //Function to go to the Map Tab from the Post's Comments Tab
   function goHome() {
@@ -202,19 +202,26 @@
     window.location.href = "/login";
   }
 
-  function deleteAccount() {
-    var choice1 = confirm("Are you sure you want to delete your account? This process is irreversible.");
-	if (choice1 == true) {
-	  var choice2 = confirm("Click 'OK' to continue with account deletion.");
-	  if(choice2 == true) {
-	    alert("Sorry, Account Deletion Feature is Coming Soon.");
-		//sessionStorage.removeItem("user");
-		//sessionStorage.removeItem("postSelect");
-		//console.log(firebase.auth.currentUser == null);
-	    //firebase.auth().currentUser.delete();
-		//window.location.href = '/login';
-	  }
-	} 
+  function deleteAccount() { 
+	swal({
+      title: "Are you sure you want to delete your account?",
+      text: "This process is irreversible.",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, delete it!",
+      closeOnConfirm: false
+    },
+    function(){
+	  //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+      swal("Sorry!", "Account Deletion Feature is Coming Soon.", "warning");
+
+	  //sessionStorage.removeItem("user");
+      //sessionStorage.removeItem("postSelect");
+	  //console.log(firebase.auth.currentUser == null);
+	  //firebase.auth().currentUser.delete();
+      //window.location.href = '/login';
+    });
   }
 
   function postComments(userkey) {
@@ -331,8 +338,16 @@
 	database.ref('users/' + sessionStorage.user +'/post/').once('value', function(snapshot1) {
 	  console.log(snapshot1);
 	  if(snapshot1.exists() != false) {
-	    var choice = confirm("Warning! Creating a new post will overwrite your existing post. Proceed?");
-		if(choice == true) {
+	    swal({
+		  title: "Warning!",
+		  text: "Creating a new post will overwrite your existing post. Proceed?",
+		  type: "warning",
+		  showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, overwrite it!",
+          closeOnConfirm: false
+        },
+		function() {
 		  if (navigator.geolocation) {
 		    navigator.geolocation.getCurrentPosition(function(position) {
 
@@ -354,8 +369,14 @@
 			  hour: moment().hours(),
 			  minute: moment().minute() 
             });
-	        alert("Post Created!");
-	        window.location.href="/";
+			swal({
+	          title: "Post Overwritten!",
+		      text: "Thank you.", 
+		      type: "success"
+	        },
+	        function(){
+	          window.location.href="/";
+	        });
 	      }, function() {
 	        alert("Error: Post Not Created");
 		    window.location.href="/";
@@ -365,7 +386,7 @@
             // Browser doesn't support Geolocation
             handleLocationError(false, infoWindow, map.getCenter());
           }
-		}
+	    });
 	  }
 	  else {
 	    if (navigator.geolocation) {
@@ -387,8 +408,15 @@
 			hour: moment().hours(),
 	        minute: moment().minute() 
           });
-	      alert("Post Created!");
-	      window.location.href="/";
+
+	      swal({
+	        title: "Post Created!",
+		    text: "Thank you.", 
+		    type: "success"
+	      },
+	      function(){
+	        window.location.href="/";
+	      });
 	      }, function() {
 	        alert("Error: Post Not Created");
 		    window.location.href="/";
@@ -423,9 +451,7 @@
 	    username: uname.value,
 	    about: uabout.value
 	  });
-// swal("Good job!", "You clicked the button!", "success")
-	  // alert("Updated.");
-	  window.location.href = "/";
+	  swal("Profile Updated!", "Thank you.", "success")
 	}
 
 	var map, infoWindow;

@@ -13,7 +13,7 @@ Annie:
 * Updated colorscheme to be more easy on the eyes.
 * Updated UI for Account Settings page.
 * Updated UI for user bubble to have larger focus on status, and removed unnecessary profile button.
-* Integrated sweet alerts but discovered pausing bug. Will not be used for final implementation.
+* Integrated sweet alerts for some alert dialogues
 
 Jason:
 * Added timestamps to individual comments
@@ -25,5 +25,4 @@ Jason:
 * User accounts: Every user account has their own instance of user data including username, about me, post created.
 * User posts: Users can create 1 post at a time with desired emoji icon and message, which lasts for up to 24 hours
 * User commenting on posts: Any user can comment on their own or others' posts
-* Account settings: Users can change their username or 'about me'
-* USer can delete their account now, all the posts that associated with that specific user will be deleted too
+* Account settings: Users can change their username or 'about me', or delete their account (where all user-specific / authentication information is deleted)
