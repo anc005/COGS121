@@ -2,6 +2,9 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <script src="sweetalert-master/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/sweetalert-master/dist/sweetalert.css">
+
     <link rel="stylesheet" type="text/css" href="./css/login_signup.css">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8" />
@@ -72,9 +75,16 @@
       if (firebaseUser) {
 	      setDBinfo(firebaseUser.uid);
 		  sessionStorage.setItem("user", firebase.auth().currentUser.uid);
-          alert("Account Created! Welcome to MapChat!!");
-          window.location.href = "/";
-          console.log(firebaseUser);
+          //alert("Account Created! Welcome to MapChat!!");
+		  swal({
+		    title: "Account Created!",
+			text: "Welcome to MapChat!!",
+			type:"success"
+		  },
+		  function(){
+            window.location.href = "/";
+            console.log(firebaseUser);
+		  });
       }
 	  else if(sessionStorage.user) {
 	    window.location.href = "/";

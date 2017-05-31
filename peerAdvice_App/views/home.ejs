@@ -213,14 +213,23 @@
       closeOnConfirm: false
     },
     function(){
-	  //swal("Deleted!", "Your imaginary file has been deleted.", "success");
-      swal("Sorry!", "Account Deletion Feature is Coming Soon.", "warning");
-
-	  //sessionStorage.removeItem("user");
-      //sessionStorage.removeItem("postSelect");
-	  //console.log(firebase.auth.currentUser == null);
-	  //firebase.auth().currentUser.delete();
-      //window.location.href = '/login';
+	  var user = firebase.auth().currentUser;
+      user.delete().then(function() {
+        // User deleted.
+        database.ref('users/' + sessionStorage.user + '/').remove(function(error){
+      });
+        sessionStorage.clear();
+		swal({
+		  title: "Deleted!",
+		  text: "Thank you for using MapChat",
+		  type: "success"
+		},
+		function(){  
+          window.location.href = '/login';
+		});
+      }, function(error) {
+          alert(error);
+      });
     });
   }
 
