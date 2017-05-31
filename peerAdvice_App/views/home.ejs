@@ -256,19 +256,26 @@
 	database.ref('users/' + userkey + '/post/').once('value', snapshot2 => {
 	  var minuteFormat;
 	  var amORpm;
+	  var tmpHour;
 	  if(snapshot2.val().minute < 10) {
 	    minuteFormat = '0' + snapshot2.val().minute;
 	  }
 	  else {
 	    minuteFormat = snapshot2.val().minute;
 	  }
-	  if(snapshot2.val().hour > 12) {
+	  if(snapshot2.val().hour >= 12) {
 	    amORpm = 'pm';
 	  }
 	  else {
 	    amORpm = 'am';
 	  }
-	  var timestamp = snapshot2.val().month + '/' + snapshot2.val().date + '/' + snapshot2.val().year + ' ' + (snapshot2.val().hour % 12)
+	  if(snapshot2.val().hour > 12) {
+	    tmpHour = (snapshot2.val().hour % 12);
+	  }
+	  else {
+	    tmpHour = snapshot2.val().hour;
+	  }
+	  var timestamp = snapshot2.val().month + '/' + snapshot2.val().date + '/' + snapshot2.val().year + ' ' + tmpHour
 	                  + ':' + minuteFormat + ' ' + amORpm;
 
 	  postDesc.text = "\"" + snapshot2.val().description + "\"";
@@ -533,7 +540,8 @@
 
 					var ampm;
 					var minFormat;
-					if(childsnap2.val().hour > 12) {
+					var hourFormat;
+					if(childsnap2.val().hour >= 12) {
 					  ampm = 'pm';
 					}
 					else {
@@ -545,6 +553,12 @@
 					else {
 					  minFormat = childsnap2.val().minute;
 					}
+				    if(childsnap2.val().hour > 12) {
+	                  hourFormat = (childsnap2.val().hour % 12);
+	                }
+	                else {
+	                  hourFormat = childsnap2.val().hour;
+	                }
 			
 		   	        marker.addListener('click', function() {
 			          infoWin.setContent( '<div class="dHeader">' + childsnap1.val().username + '</div>' +
@@ -553,7 +567,7 @@
 						 childsnap1.val().about +
 				         '<br><center><div class="myDIV" style="display:none"></div><a class="comButton" href="javascript:postComments(\'' + childsnap1.key + '\')" onclick="$(\'#post-tab\').click()"><i class="fa fa-comments fa-3x"></i></a></center>' +
 					     '<a>'+ childsnap2.val().month + '/' + childsnap2.val().date + '/' + childsnap2.val().year + ' ' + 
-                         (childsnap2.val().hour % 12) + ':' + minFormat + ' ' + ampm + '</a>'
+                         hourFormat + ':' + minFormat + ' ' + ampm + '</a>'
 				      );
 		              infoWin.open(map, marker);
 			        });
