@@ -2,11 +2,12 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <script src="sweetalert-master/dist/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/sweetalert-master/dist/sweetalert.css">
 	<link rel="stylesheet" type="text/css" href="/CSS/dd.css" />
 	<link rel="stylesheet" type="text/css" href="/CSS/map.css">
   <link rel="stylesheet" type="text/css" href="/CSS/login_signup.css">
-  <script src="dist/sweetalert.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+
 
 
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
@@ -183,6 +184,7 @@
 
     text = localStorage.getItem("profile");
     obj = JSON.parse(text);
+
     alert("Information saved!");
   }
 
@@ -421,7 +423,8 @@
 	    username: uname.value,
 	    about: uabout.value
 	  });
-	  alert("Updated.");
+// swal("Good job!", "You clicked the button!", "success")
+	  // alert("Updated.");
 	  window.location.href = "/";
 	}
 

@@ -9,7 +9,10 @@ Jake:
 * 
 
 Annie:
-*
+* Updated colorscheme to be more easy on the eyes.
+* Updated UI for Account Settings page.
+* Updated UI for user bubble to have larger focus on status, and removed unnecessary profile button.
+* Integrated sweet alerts but discovered pausing bug. Will not be used for final implementation.
 
 Jason:
 * Added timestamps to individual comments
@@ -19,6 +22,6 @@ Jason:
 **Brief description of all the completed features of app**
 * Authentication: Users must signup for/login into an account in order to access the main application with appropriate email/password combinations.
 * User accounts: Every user account has their own instance of user data including username, about me, post created.
-* User posts: Users can create 1 post at a time with desired emoji icon and message, which lasts for up to 24hours
+* User posts: Users can create 1 post at a time with desired emoji icon and message, which lasts for up to 24 hours
 * User commenting on posts: Any user can comment on their own or others' posts
 * Account settings: Users can change their username or 'about me'
