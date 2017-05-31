@@ -6,7 +6,8 @@ Jacob:
 * Created new marker cluster icons. 
 
 Jake:
-* 
+* Added delete account feature
+* Working on adding reset password feature and fix cluster display problem
 
 Annie:
 *
@@ -22,3 +23,4 @@ Jason:
 * User posts: Users can create 1 post at a time with desired emoji icon and message, which lasts for up to 24hours
 * User commenting on posts: Any user can comment on their own or others' posts
 * Account settings: Users can change their username or 'about me'
+* USer can delete their account now, all the posts that associated with that specific user will be deleted too
