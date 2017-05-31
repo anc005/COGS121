@@ -9,10 +9,6 @@
   <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
 
 
-
-
-
-
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="/js/jquery.js"></script>
@@ -97,10 +93,11 @@
           <br><br>
         </div>
         <button type="submit">Save Changes</button>
+        <button onclick="deleteAccount()" type="submit">Delete Account</button>
       </form>
-	  <form id="found-form" action="javascript:deleteAccount()">
-        <button type="submit">Delete Account</button>
-      </form>
+	<!--    <form id="found-form2" action="javascript:deleteAccount()"> -->
+        
+ <!--      </form> -->
     </tab-section>
 
 	<tab-section id="post-tab-section">
@@ -516,7 +513,7 @@
 				         '<div class="description">"' + childsnap2.val().description + '"</div>' +
 						 '<br>About Me: ' +
 						 childsnap1.val().about +
-				         '<br><center><button class="profileBut" onclick="toggle()"><i class="fa fa-users fa-3x"></i></button><div class="myDIV" style="display:none"></div><a class="comButton" href="javascript:postComments(\'' + childsnap1.key + '\')" onclick="$(\'#post-tab\').click()"><i class="fa fa-comments fa-3x"></i></a></center>' +
+				         '<br><center><div class="myDIV" style="display:none"></div><a class="comButton" href="javascript:postComments(\'' + childsnap1.key + '\')" onclick="$(\'#post-tab\').click()"><i class="fa fa-comments fa-3x"></i></a></center>' +
 					     '<a>'+ childsnap2.val().month + '/' + childsnap2.val().date + '/' + childsnap2.val().year + ' ' + 
                          (childsnap2.val().hour % 12) + ':' + minFormat + ' ' + ampm + '</a>'
 				      );
