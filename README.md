@@ -7,7 +7,7 @@ UCSD, Spring 2017
 
 **Project Name:** MapChat
 
-**Description:** MapChat is a location based web application that allows users to post how they feel via an emoji of their choice, a status, a username, and about me. Users are also able to chat in real time on each other's posts that last 24 hours max, in order to encourage realtime connections and conversations. Users are able to see each other's locations from their post. 
+**Description:** MapChat is a location-based web application that allows users to post how they feel via an emoji of their choice, a status, a username, and about me. Users are also able to chat in real time on each other's posts that last 24 hours max, in order to encourage realtime connections and conversations. Users are able to see each other's locations from their post. 
 
 
 **Technologies:**
